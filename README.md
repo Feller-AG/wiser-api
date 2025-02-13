@@ -4,7 +4,7 @@
 ## 🛠️ Introduction
 
 The [µGW Rest API documentation](https://feller-ag.github.io/wiser-api)  provides a comprehensive guide for using the µGW through various endpoints and functions.
-
+If anything is unclear 🤔 or you can't find something in the documentation 📖, don’t hesitate. Just go ahead and create an 'Issue' 📝 with your question! 🚀😊
 
 ## 🌀 Versions of the µGW Rest API
 
