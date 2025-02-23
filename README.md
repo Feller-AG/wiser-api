@@ -20,3 +20,17 @@ The distinction between µGWv1 and µGWv2 is made based on the article number:
   - 🅰️ Example: 926-3401.1.W.A.F.61
 - **Article number of µGWv2**: The index contains a "B".
   - 🅱️ Example: 926-3401.1.W.B.F.61
+
+## 🚀 Awesome Projects
+✨ These incredible projects demonstrate creative and powerful integrations of our API.
+Check them out and get inspired! 🚀🔧
+
+- Homebridge Feller Wiser plugin → [GitHub Link 🔗](https://github.com/hansfriedrich/homebridge-feller-wiser)
+
+- Wiser by Feller adapter for ioBroker → [GitHub Link 🔗](https://github.com/ice987987/ioBroker.wiserbyfeller)
+
+- Wiser Matter Bridge → [GitHub Link 🔗](https://github.com/rolfscherer/wiser-matter-bridge)
+
+- Feller Wiser Home Assistant → [GitHub Link 🔗](https://github.com/machgo/fellerwiserhomeassistant)
+
+❓ Haven't we heard about your project yet? Let us know! 📩 There's always space for more amazing ideas! 😊🎊🚀
