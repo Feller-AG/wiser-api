@@ -34,6 +34,9 @@ Check them out and get inspired! 🚀🔧
 ### Matter
 - [rolfscherer/wiser-matter-bridge (GitHub) 🔗](https://github.com/rolfscherer/wiser-matter-bridge)
 
+### Python
+- [Syonix/aioWiserByFeller (GitHub) 🔗](https://github.com/Syonix/aioWiserByFeller)
+
 ### Home Assistant
 - [Syonix/ha-wiser-by-feller (GitHub) 🔗](https://github.com/Syonix/ha-wiser-by-feller)
 - [machgo/fellerwiserhomeassistant (GitHub) 🔗](https://github.com/machgo/fellerwiserhomeassistant)
