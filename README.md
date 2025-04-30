@@ -25,12 +25,20 @@ The distinction between µGWv1 and µGWv2 is made based on the article number:
 ✨ These incredible projects demonstrate creative and powerful integrations of our API.
 Check them out and get inspired! 🚀🔧
 
-- Homebridge Feller Wiser plugin → [GitHub Link 🔗](https://github.com/hansfriedrich/homebridge-feller-wiser)
+### Homebridge
+- [hansfriedrich/homebridge-feller-wiser (GitHub) 🔗](https://github.com/hansfriedrich/homebridge-feller-wiser)
 
-- Wiser by Feller adapter for ioBroker → [GitHub Link 🔗](https://github.com/ice987987/ioBroker.wiserbyfeller)
+### ioBroker
+- [ice987987/ioBroker.wiserbyfeller (GitHub) 🔗](https://github.com/ice987987/ioBroker.wiserbyfeller)
 
-- Wiser Matter Bridge → [GitHub Link 🔗](https://github.com/rolfscherer/wiser-matter-bridge)
+### Matter
+- [rolfscherer/wiser-matter-bridge (GitHub) 🔗](https://github.com/rolfscherer/wiser-matter-bridge)
 
-- Feller Wiser Home Assistant → [GitHub Link 🔗](https://github.com/machgo/fellerwiserhomeassistant)
+### Python
+- [Syonix/aioWiserByFeller (GitHub) 🔗](https://github.com/Syonix/aioWiserByFeller)
+
+### Home Assistant
+- [Syonix/ha-wiser-by-feller (GitHub) 🔗](https://github.com/Syonix/ha-wiser-by-feller)
+- [machgo/fellerwiserhomeassistant (GitHub) 🔗](https://github.com/machgo/fellerwiserhomeassistant)
 
 ❓ Haven't we heard about your project yet? Let us know! 📩 There's always space for more amazing ideas! 😊🎊🚀
