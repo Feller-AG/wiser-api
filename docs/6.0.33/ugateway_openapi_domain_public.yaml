@@ -1,30 +1,29 @@
 openapi: 3.0.0
 info:
-  title: µGateway API (Public Domain)
-  description: This document describes the `RESTful API` of the µGateway
-  version: 5.0.6
+  title: µGateway RESTful API -- (Public - Domain)
+  description: This document describes the ReST API of a Wiser-by-Feller µGateway.
+  version: 6.0.33
   contact:
-    name: Feller AG, Bergstrasse 70, 8810 Horgen, Switzerland
+    name: API Support, Feller AG, Bergstrasse 70, 8810 Horgen, Switzerland
     url: https://github.com/Feller-AG/wiser-api/issues
   license:
     name: MIT
     url: https://raw.githubusercontent.com/Feller-AG/wiser-api/main/LICENSE
+  termsOfService: https://wiser-cdn.feller.ch/media/documents/Allgemeine_Lizenz_und_Nutzungsbedingungen_de.pdf
 servers:
   - url: /
     description: This µGateway itself
+externalDocs:
+  description: Take a look at this tutorial to get in touch with this OpenAPI specification.
+  url: https://github.com/Feller-AG/wiser-tutorial
 paths:
   /api/info:
     summary: 'Device Info: /info'
-    description: >-
-      These read-only services return information about the components of a
-      µGateway device.
+    description: These read-only services return information about the components of a µGateway device.
     get:
       summary: Get important information about components of the µGateway device.
-      description: >
-        Get important information about components of the µGateway device.
-        Version strings have the full format `MAJOR.MINOR.PATCH` or shorter.
-        MAJOR, MINOR and PATCH are integers without leading zeros and each
-        strictly increasing with time.
+      description: |
+        Get important information about components of the µGateway device. Version strings have the full format `MAJOR.MINOR.PATCH` or shorter. MAJOR, MINOR and PATCH are integers without leading zeros and each strictly increasing with time.
       operationId: showInfos
       tags:
         - Device Info
@@ -42,15 +41,9 @@ paths:
     description: ''
     get:
       summary: Get detailed information for testing and debugging a µGateway device.
-      description: >
-        Get detailed information for testing and debugging a µGateway device.
-        Version strings have the full format `MAJOR.MINOR.PATCH` or shorter.
-        MAJOR, MINOR and PATCH are integers without leading zeros and each
-        strictly increasing with time.
-
-        Git hashes are shortened to first few digits, and end with `-dirty` if
-        the build includes uncommitted changes.
-
+      description: |
+        Get detailed information for testing and debugging a µGateway device. Version strings have the full format `MAJOR.MINOR.PATCH` or shorter. MAJOR, MINOR and PATCH are integers without leading zeros and each strictly increasing with time.
+        Git hashes are shortened to first few digits, and end with `-dirty` if the build includes uncommitted changes.
         Time strings are in ISO 8601 format `YYYY-MM-DDThh:mm:ss`.
       operationId: showDebugInfos
       tags:
@@ -66,18 +59,12 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/time/now:
     summary: 'Current Time: /now'
-    description: >
-      A µGateway needs to know the current date and time, e.g. to switch loads
-      on a certain weekday and daytime. The following time services can get and
-      set the system time. It may be set manually or automatically from the
-      Internet. A list of NTP servers and an interval can be configured to set
-      the system time automatically.
+    description: |
+      A µGateway needs to know the current date and time, e.g. to switch loads on a certain weekday and daytime. The following time services can get and set the system time. It may be set manually or automatically from the Internet. A list of NTP servers and an interval can be configured to set the system time automatically.
     get:
       summary: Get the current system time and the uptime since last startup.
-      description: >
-        Get the current system time of the device and the uptime since last
-        startup. System time strings are in ISO 8601 format
-        `YYYY-MM-DDThh:mm:ss`.
+      description: |
+        Get the current system time of the device and the uptime since last startup. System time strings are in ISO 8601 format `YYYY-MM-DDThh:mm:ss`.
       operationId: showTime
       tags:
         - Time
@@ -92,9 +79,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
       summary: Set the system time of the device, either as UTC or as localtime.
-      description: >
-        System time strings are in ISO 8601 format `YYYY-MM-DDThh:mm:ss`. The
-        value of `uptime` is read-only!
+      description: |
+        System time strings are in ISO 8601 format `YYYY-MM-DDThh:mm:ss`. The value of `uptime` is read-only!
       operationId: putTime
       tags:
         - Time
@@ -115,10 +101,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/time/ntpconfig:
     summary: The NTP configuration consists of an array of `urls` and an `interval`.
-    description: >
-      The system time will be set at regular intervals from the NTP servers in
-      the array. The device tries to connect the NTP servers in order of their
-      URLs in the array until a request is successful.
+    description: |
+      The system time will be set at regular intervals from the NTP servers in the array. The device tries to connect the NTP servers in order of their URLs in the array until a request is successful.
     get:
       summary: Read the current NTP configuration.
       description: ''
@@ -136,10 +120,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
       summary: Set a new NTP configuration.
-      description: >
-        The existing `urls`-array is replaced by the new one! If an URL in the
-        new array occurs more than once then all copies after the first will be
-        removed.
+      description: |
+        The existing `urls`-array is replaced by the new one! If an URL in the new array occurs more than once then all copies after the first will be removed.
       operationId: putNtpConfig
       tags:
         - Time
@@ -160,9 +142,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Set a new interval and/or prepend new entries to the URLs array.
-      description: >
-        If an URL in the new array occurs more than once then all copies after
-        the first will be removed.
+      description: |
+        If an URL in the new array occurs more than once then all copies after the first will be removed.
       operationId: patchNtpConfig
       tags:
         - Time
@@ -187,15 +168,11 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/time/suninfo:
     summary: 'Sunny Times: /suninfo'
-    description: >
-      Calculate the sunrise and sunset times of today. The results are daytimes
-      in UTC. The current implementation assumes the center of Switzerland as
-      geographic location!
+    description: |
+      Calculate the sunrise and sunset times of today. The results are daytimes in UTC. The current implementation assumes the center of Switzerland as geographic location!
     get:
       summary: Calculate the sunrise and sunset times of today.
-      description: >-
-        The current implementation assumes that you are at the center of
-        Switzerland!
+      description: The current implementation assumes that you are at the center of Switzerland!
       operationId: getSunInfo
       tags:
         - Time
@@ -210,22 +187,18 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/time/suninfo/{date}:
     summary: 'Sunny Times: /suninfo'
-    description: >
-      Calculate the sunrise and sunset times on a specific date. The results are
-      daytimes in UTC. The current implementation assumes the center of
-      Switzerland as geographic location!
+    description: |
+      Calculate the sunrise and sunset times on a specific date. The results are daytimes in UTC. The current implementation assumes the center of Switzerland as geographic location!
     get:
       summary: Calculate the sunrise and sunset times on a specific date.
-      description: >-
-        The current implementation assumes that you are at the center of
-        Switzerland!
+      description: The current implementation assumes that you are at the center of Switzerland!
       operationId: getSunInfoOnDate
       tags:
         - Time
       parameters:
         - name: date
           in: path
-          description: date as string of format `YYYY-mm-dd`
+          description: date string in ISO 8601 format `YYYY-mm-dd`
           required: true
           schema:
             type: string
@@ -240,18 +213,12 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/net/scan:
     summary: 'Wireless Scan: /scan'
-    description: >
-      The network services can scan the environment for WLAN access-points. They
-      can store an array of WLAN configurations. They handle the current network
-      state. And they can reconnect to each access-point whose WLAN
-      configuration has been stored.
+    description: |
+      The network services can scan the environment for WLAN access-points. They can store an array of WLAN configurations. They handle the current network state. And they can reconnect to each access-point whose WLAN configuration has been stored.
     get:
       summary: Return connectable WLAN routers in range
-      description: >
-        Scan the wireless environment for connectible WLAN access-points in
-        range. Each scan will take approximately 5 seconds! The response is an
-        array of objects, each with `ssid`, `bssid`, `sec`, `channel` and
-        `rssi`.
+      description: |
+        Scan the wireless environment for connectible WLAN access-points in range. Each scan will take approximately 5 seconds! The response is an array of objects, each with `ssid`, `bssid`, `sec`, `channel` and `rssi`.
       operationId: getWlanAccessPoints
       tags:
         - Network - Wireless Scan and MDNS
@@ -268,12 +235,9 @@ paths:
     summary: 'Wireless MDNS: /mdns'
     description: ''
     get:
-      summary: >-
-        Get all hosts of all service types that were discovered since last
-        reboot.
-      description: >
-        In access-point mode the hostname, IP address and port of the µGateway
-        itself can be found under `http`, `lisa` and `zapp`.
+      summary: Get all hosts of all service types that were discovered since last reboot.
+      description: |
+        In access-point mode the hostname, IP address and port of the µGateway itself can be found under `http`, `lisa` and `zapp`.
       operationId: getMdnsServiceTypes
       tags:
         - Network - Wireless Scan and MDNS
@@ -287,13 +251,9 @@ paths:
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
     post:
-      summary: >-
-        Broadcast a MDNS Service Discovery to the connected WLAN to discover new
-        service hosts.
-      description: >
-        Then get all hosts of all service types that were discovered since last
-        reboot. In access-point mode the hostname, IP address and port of the
-        µGateway itself can be found under `http`, `lisa` and `zapp`.
+      summary: Broadcast a MDNS Service Discovery to the connected WLAN to discover new service hosts.
+      description: |
+        Then get all hosts of all service types that were discovered since last reboot. In access-point mode the hostname, IP address and port of the µGateway itself can be found under `http`, `lisa` and `zapp`.
       operationId: postMdnsServiceTypes
       tags:
         - Network - Wireless Scan and MDNS
@@ -314,10 +274,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/net/wlans:
     summary: 'WLAN Configurations: /wlans'
-    description: >
-      WLAN configurations can be stored, edited and deleted. When a new
-      configuration is stored a unique id will be assigned. Each configuration
-      or an array of all their ids can be read.
+    description: |
+      WLAN configurations can be stored, edited and deleted. When a new configuration is stored a unique id will be assigned. Each configuration or an array of all their ids can be read.
     get:
       summary: Get WLAN configurations.
       description: |
@@ -336,10 +294,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     post:
       summary: Create a new WLAN configuration.
-      description: >
-        A configuration must have at least a non-empty `ssid` or `bssid`. The
-        `password` must be missing or empty if `sec` is missing or `OPEN`. For
-        all other values of `sec` a valid password must be set.
+      description: |
+        A configuration must have at least a non-empty `ssid` or `bssid`. The `password` must be missing or empty if `sec` is missing or `OPEN`. For all other values of `sec` a valid password must be set.
       operationId: postWlanAccessPoint
       tags:
         - Network - WLAN Configurations
@@ -356,6 +312,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/dataWlanConfItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Delete all WLAN configurations.
+      description: |
+        During next reboot the order list of `Current State` will be cleared and the µGateway starts in access-point mode!
+      operationId: deleteWlanAccessPoints
+      tags:
+        - Network - WLAN Configurations
+      responses:
+        '200':
+          description: Response JSON Object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataGenericNullItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/net/wlans/{id}:
@@ -383,10 +355,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
       summary: Replace an existing WLAN configuration with a completely new one.
-      description: >
-        The new values may be empty strings. Missing properties are set to
-        default values. The new WLAN configuration has the same limitations as
-        explained in section `POST /wlans`.
+      description: |
+        The new values may be empty strings. Missing properties are set to default values. The new WLAN configuration has the same limitations as explained in section `POST /wlans`.
       operationId: putWlanConfigById
       tags:
         - Network - WLAN Configurations
@@ -414,9 +384,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Patch some new values into an existing WLAN configuration.
-      description: >
-        The new values may be empty strings. The resulting WLAN configuration
-        has the same limitations as explained in section `POST /wlans`.
+      description: |
+        The new values may be empty strings. The resulting WLAN configuration has the same limitations as explained in section `POST /wlans`.
       operationId: patchWlanConfigById
       tags:
         - Network - WLAN Configurations
@@ -444,9 +413,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     delete:
       summary: Delete a WLAN configuration.
-      description: >
-        Delete a WLAN configuration. The response contains the deleted WLAN
-        configuration.
+      description: |
+        Delete a WLAN configuration. The response contains the deleted WLAN configuration.
       operationId: deleteWlanConfigById
       tags:
         - Network - WLAN Configurations
@@ -468,21 +436,10 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/net/state:
     summary: 'Current State: /state'
-    description: >
-      The network state stores the hostname, the SSID and password for the
-      access-point mode, the `https` flag and a WLAN order array. It also
-      contains the `ip` address and the `current` id which are read-only and set
-      when connecting a WLAN. The `cloud_cn` reflects the Nubes common name of
-      this µGateway device and is read-only too. The `https` flag decides if the
-      https server is secured with SSL or not.
-
-      If the `order` array is empty then the µGateway will start as an
-      access-point itself. Otherwise the `order` array contains WLAN
-      configuration ids and defines which WLAN to try to connect and in which
-      order. A new or edited WLAN configuration is said to be `unconfirmed`
-      until a first connection has been successful. The id of an unconfirmed
-      WLAN configuration will be removed from the `order` array if this first
-      connection fails!
+    description: |
+      The network state stores the WLAN `order` array. It also contains the `current` WLAN configuration id and the `ip` address which both change when connecting a WLAN. The `hostname` shows the DNS/MDNS name, which is also the SSID in access-point mode. The `cloud_cn` reflects the Nubes common name and `mac_addr` the of this µGateway.
+      If the `order` array is empty then the µGateway will start as an access-point itself. Otherwise the `order` array contains WLAN configuration ids and defines which WLAN to try to connect and in which order. A new or edited WLAN configuration is said to be `unconfirmed` until a first connection has been successful. The id of an unconfirmed WLAN configuration will be removed from the `order` array if this first connection fails!
+      The `mdns_discovery` array lists all service types that are currently monitored and is empty by default.
     get:
       summary: Read the current network state.
       description: ''
@@ -500,14 +457,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
       summary: Set a new network state.
-      description: >
-        If an optional key is missing then its value is reset to default. The
-        existing `order` array is replaced by the new one. If an id in the new
-        order array occurs more than once then all copies after the first will
-        be removed.
-
-        > **_Attention:_** The property `https` is for future use, do not change
-        it!
+      description: |
+        If an optional key is missing then its value is reset to default. The existing `order` array is replaced by the new one. If an id in the new order array occurs more than once then all copies after the first will be removed.
       operationId: putState
       tags:
         - Network - Current State
@@ -528,14 +479,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Change values in the network state.
-      description: >
-        If an optional key is missing then its value stays unchanged. The
-        existing `order` array is appended at the end of the new one to build a
-        combined array. If an id in the combined order array occurs more than
-        once then all copies after the first will be removed.
-
-        > **_Attention:_** The property `https` is for future use, do not change
-        it!
+      description: |
+        If an optional key is missing then its value stays unchanged. The existing `order` array is appended at the end of the new one to build a combined array. If an id in the combined order array occurs more than once then all copies after the first will be removed.
       operationId: patchState
       tags:
         - Network - Current State
@@ -556,23 +501,15 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/net/rssi:
     summary: 'Rssi: /rssi'
-    description: >
-      This read-only service returns the RSSI (Received Signal Strength
-      Indication) in dBm.
+    description: |
+      This read-only service returns the RSSI (Received Signal Strength Indication) in dBm.
     get:
       summary: Return the current RSSI in dBm.
-      description: >
-        This read-only service returns the `Received Signal Strength Indication`
-        of the µGateway device.
+      description: |
+        This read-only service returns the `Received Signal Strength Indication` of the µGateway device.
 
-
-        A RSSI from -1 to -49 means `good` and from -50 to -69 the link quality
-        is `ok`. A RSSI beyond -70 may lead to delayed responses or even WLAN
-        disassociation!
-
-        > **_Warning:_** It is only possible to get the RSSI in router mode,
-        alias station mode! Getting the RSSI in access-point mode will raise an
-        error.
+        A RSSI from -1 to -49 means `good` and from -50 to -69 the link quality is `ok`. A RSSI beyond -70 may lead to delayed responses or even WLAN disassociation!
+        > **_Warning:_** It is only possible to get the RSSI in router mode, alias station mode! Getting the RSSI in access-point mode will raise an error.
       operationId: showRssi
       tags:
         - Network - Link Quality
@@ -587,10 +524,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/rooms:
     summary: 'Rooms: /rooms'
-    description: >
-      The rooms services give access to all room-objects of an installation
-      site. Loads can then be assigned to rooms. Each load can only be assigned
-      to one room.
+    description: |
+      The rooms services give access to all room-objects of an installation site. Loads can then be assigned to rooms. Each load can only be assigned to one room.
     get:
       summary: Get all object with the corresponding description of each room.
       description: ''
@@ -649,7 +584,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the id of a room configuration
+          description: the id of a Room
           required: true
           schema:
             type: integer
@@ -675,7 +610,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the id of a room configuration
+          description: the id of a Room
           required: true
           schema:
             type: integer
@@ -707,7 +642,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the id of a room configuration
+          description: the id of a Room
           required: true
           schema:
             type: integer
@@ -783,16 +718,10 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/loads:
     summary: 'Loads: /loads'
-    description: >
-      The loads services give access to all loads (lights & blinds) of a whole
-      installation site. A load object does not *represent* a physical device
-      like a light switch! It is only *controlled* by such a device.
-
-      > **_Attention:_** In parallel to this service there is a Websocket
-      connection to get the state-changes as push notification!
-
-      > **_Hint:_** A request with a secret token in the Authorization header
-      will access only the loads of that claimed user.
+    description: |
+      The loads services give access to all loads (lights & blinds) of a whole installation site. A load object does not *represent* a physical device like a light switch! It is only *controlled* by such a device.
+      > **_Attention:_** In parallel to this service there is a Websocket connection to get the state-changes as push notification!
+      > **_Hint:_** A request with a secret token in the Authorization header will access only the loads of that claimed user.
     get:
       summary: Get all loads with all their properties.
       description: ''
@@ -826,7 +755,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of a load configuration
+          description: the id of a Load
           required: true
           schema:
             type: integer
@@ -840,7 +769,7 @@ paths:
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
-      summary: Patch new values into an existing load.
+      summary: Patch new values into some properties of an existing load.
       description: ''
       operationId: patchLoadById
       tags:
@@ -852,7 +781,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of a load configuration
+          description: the id of a Load
           required: true
           schema:
             type: integer
@@ -894,6 +823,65 @@ paths:
                 $ref: '#/components/schemas/dataLoadsStateItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/loads/{id}/state:
+    summary: 'Loads: /loads/{id}/state'
+    description: |
+      Get the state values of one load.
+    get:
+      summary: Get one load state.
+      description: Get only the id and state property of one load.
+      operationId: showLoadState
+      tags:
+        - Loads
+      security:
+        - SecretAuth:
+            - read
+            - write
+      parameters:
+        - name: id
+          in: path
+          description: the id of a Load
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataLoadStateItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    put:
+      deprecated: true
+      summary: Put a new value into the state property of one load.
+      description: ''
+      operationId: putLoadState
+      tags:
+        - Loads
+      parameters:
+        - name: id
+          in: path
+          description: the id of a Load
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataLoadTargetStateItemModReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataLoadTargetStateItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
   /api/loads/{id}/target_state:
     summary: 'Loads: /loads/{id}/target_state'
     description: |
@@ -901,20 +889,35 @@ paths:
     put:
       summary: Put a new target-state value for one load.
       description: |
-        Possible target_state values per load-type:
+        **Possible target-state depending on load-type:**
+        | Main-Type | Sub-Type | Attr.                        |
+        |-----------|----------|------------------------------|
+        | onoff     |          | bri                          |
+        | dim       |          | bri                          |
+        | motor     |          | level, tilt                  |
+        | dali      |          | bri                          |
+        | dali      | tw       | bri, ct                      |
+        | dali      | rgb      | bri, red, green, blue, white |
 
-        | Type  | bri | level | tilt |
-        |-------|-----|-------|------|
-        | onoff | x   |       |      |
-        | dim   | x   |       |      |
-        | motor |     | x     | x    |
+
+        **Minimum and maximum values:**
+        | Attr. | min. | max.  |
+        |-------|------|-------|
+        | bri   | 0    | 10000 |
+        | level | 0    | 10000 |
+        | tilt  | 0    | 9     |
+        | ct    | 1000 | 20000 |
+        | red   | 0    | 255   |
+        | green | 0    | 255   |
+        | blue  | 0    | 255   |
+        | white | 0    | 255   |
       operationId: putLoadTargetState
       tags:
         - Loads
       parameters:
         - name: id
           in: path
-          description: the unique id of a load object
+          description: the id of a Load
           required: true
           schema:
             type: integer
@@ -958,7 +961,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of a load object
+          description: the id of a Load
           required: true
           schema:
             type: integer
@@ -977,8 +980,8 @@ paths:
                 $ref: '#/components/schemas/dataLoadCtrlItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
-  /api/loads/{id}/ctrl/{event-type}/{button-type}:
-    summary: 'Loads: /loads/{id}/ctrl/{event-type}/{button-type}'
+  /api/loads/{id}/ctrl/{event_type}/{button_type}:
+    summary: 'Loads: /loads/{id}/ctrl/{event_type}/{button_type}'
     description: ''
     get:
       summary: Invoke a button-event (ctrl) for one load.
@@ -989,17 +992,17 @@ paths:
       parameters:
         - name: id
           in: path
-          description: '[read-only] unique id of a load'
+          description: the id of a Load
           required: true
           schema:
             type: integer
-        - name: event-type
+        - name: event_type
           in: path
           description: event like `click`, `press`, `release`
           required: true
           schema:
             type: string
-        - name: button-type
+        - name: button_type
           in: path
           description: button kind like `on`, `off`, `toggle`, `up`, `down`, `stop`  etc.
           required: true
@@ -1017,13 +1020,9 @@ paths:
   /api/loads/findme:
     put:
       summary: This service puts all loads into the find me mode.
-      description: >
-        If the *find me* mode is on, all corresponding buttons to control a load
-        lights up.
-
-        As soon as a button is pressed, the pressed button stops lighting up and
-        the µGateway sends the following event over the Websocket connection:
-        `{"findme": {"load": 345}}`.
+      description: |
+        If the *find me* mode is on, all corresponding buttons to control a load lights up.
+        As soon as a button is pressed, the pressed button stops lighting up and the µGateway sends the following event over the Websocket connection: `{"findme": {"load": 345}}`.
       operationId: putLoadFindMe
       tags:
         - Loads
@@ -1052,7 +1051,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: '[read-only] unique id of a load'
+          description: the id of a Load
           required: true
           schema:
             type: integer
@@ -1074,7 +1073,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: '[read-only] unique id of a load'
+          description: the id of a Load
           required: true
           schema:
             type: integer
@@ -1093,15 +1092,121 @@ paths:
                 $ref: '#/components/schemas/dataLoadPingItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/sensors:
+    summary: 'Sensors: /sensors'
+    description: |
+      A Sensor object does not *represent* a physical wiser-by-feller device like a weather-station or a thermostat! It is an input from such device.
+      > **_Attention:_** In parallel to this service there is a Websocket connection to get the state-changes as push notification!
+      > **_Hint:_** A request with a secret token in the Authorization header will access only the sensors of that claimed user.
+    get:
+      summary: Get all sensors with all their properties.
+      description: ''
+      operationId: showSensors
+      tags:
+        - Sensors
+      security:
+        - SecretAuth:
+            - read
+            - write
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataSensorsItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/sensors/{id}:
+    get:
+      summary: Get one sensor with all its properties.
+      description: ''
+      operationId: showSensorById
+      tags:
+        - Sensors
+      security:
+        - SecretAuth:
+            - read
+            - write
+      parameters:
+        - name: id
+          in: path
+          description: the id of a Sensor
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataSensorItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    patch:
+      summary: Patch new values into some properties of an existing sensor.
+      description: ''
+      operationId: patchSensorById
+      tags:
+        - Sensors
+      security:
+        - SecretAuth:
+            - read
+            - write
+      parameters:
+        - name: id
+          in: path
+          description: the id of a Sensor
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataSensorItemModReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataSensorItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/sensors/findme:
+    put:
+      summary: This service puts all sensors into the find me mode.
+      description: |
+        If the *find me* mode is on, all devices with sensors lights up.
+        As soon as a button is pressed on a blinking device, the device stops lighting up and the µGateway sends the following event over the Websocket connection: `{"findme": {"sensor": 345}}`.
+      operationId: putSensorFindMe
+      tags:
+        - Sensors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataSensorFindMeItemModReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataSensorFindMeItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
   /api/account/claim:
     summary: Claiming of the user.
     description: ''
     post:
       summary: Run claiming of the user.
-      description: >
-        The request is long-lasting and kept open until the user presses the
-        dedicated button to prove its physical presence.
-
+      description: |
+        The request is long-lasting and kept open until the user presses the dedicated button to prove its physical presence.
 
         If the claiming is successful, the response will contain the secret.
       operationId: postAccountClaim
@@ -1128,16 +1233,12 @@ paths:
     description: ''
     post:
       summary: Run an user-account cloning from an existing user.
-      description: >
+      description: |
         Clone an existing user-account without pressing any button.
 
+        If the cloning is successful, the response will contain the secret of the new user.
 
-        If the cloning is successful, the response will contain the secret of
-        the new user.
-
-
-        The secret token of the existing user must be sent in the Authorization
-        header!
+        The secret token of the existing user must be sent in the Authorization header!
       operationId: postAccountClone
       tags:
         - Account
@@ -1158,6 +1259,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/dataAccountPostCloneRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/account/clones:
+    summary: Handling account clones.
+    description: ''
+    get:
+      summary: Get all account clone secrets from an existing user.
+      description: |
+        The secret token of the existing user must be sent in the Authorization header!
+      operationId: getAccountClones
+      tags:
+        - Account
+      security:
+        - SecretAuth:
+            - read
+            - write
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataAccountGetClonesRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/account:
@@ -1231,10 +1355,8 @@ paths:
     description: ''
     post:
       summary: Reset an existing account.
-      description: >
-        This method will delete all user-specific data like rooms and scenes,
-        but not the account itself.
-
+      description: |
+        This method will delete all user-specific data like rooms and scenes, but not the account itself.
         The secret token must be sent in the Authorization header!
       operationId: postAccountReset
       tags:
@@ -1252,10 +1374,124 @@ paths:
                 $ref: '#/components/schemas/dataAccountRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/account/config-reset:
+    summary: Account Config Reset.
+    description: ''
+    post:
+      summary: |
+        Delete all user-specific data (but not the account itself), remove partially system configuration data (except network settings) and reboot.
+      description: |
+        > **_Attention:_** This service will delete data from other users and
+        will end in a reboot!
+
+
+        **This service will retain:**
+
+        - The account itself
+        - Network settings
+
+
+        **This service will delete/reset:**
+
+        - Delete all user-specific data like rooms and scenes, but not the account itself
+        - Delete common-data like jobs, timers
+        - Delete all others user-specific data
+        - Reset kPlus device bindings:
+            - ``[magnet_binding = false]`` (Default) Reset all kPlus µGateway bindings (bindings created at the µGateway)
+            - ``[magnet_binding = true]`` Reset all kPlus bindings, bindings created at the µGateway and installation bindings (magnet-bindings)
+
+        The secret token must be sent in the Authorization header!
+      operationId: postAccountConfigReset
+      tags:
+        - Account
+      security:
+        - SecretAuth:
+            - read
+            - write
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataAccountPostConfigResetReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataAccountRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/account/sync:
+    summary: Account synchronization.
+    description: ''
+    post:
+      summary: Sync user-specific data from an existing user (source-account) to other cloned accounts by passing secrets.
+      description: |
+        Only cloned accounts secrets from existing user are allowed!
+
+        Passing unique ids that does not exists from the existing user (source-account) but exists by the cloned accounts, those data will be removed!
+
+        Allowed user-specific data (unique ids) to synchronize: `rooms, schedulers, scenes, groupctrls, loads`
+
+        The secret token of the existing user must be sent in the Authorization header!
+      operationId: postAccountSync
+      tags:
+        - Account
+      security:
+        - SecretAuth:
+            - read
+            - write
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataAccountPostSyncReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataGenericNullItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/account/clones/sync:
+    summary: Account clones synchronization.
+    description: ''
+    post:
+      summary: Sync user-specific data from an existing user (source-account) to all his cloned accounts.
+      description: |
+        Passing unique ids that does not exists from the existing user (source-account) but exists by the cloned accounts, those data will be removed!
+
+        Allowed user-specific data (unique ids) to synchronize: `rooms, schedulers, scenes, groupctrls, loads`
+
+        The secret token of the existing user must be sent in the Authorization header!
+      operationId: postAccountClonesSync
+      tags:
+        - Account
+      security:
+        - SecretAuth:
+            - read
+            - write
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataAccountPostClonesSyncReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataGenericNullItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
   /api/devices:
-    summary: >-
-      The devices services give access to all devices of a whole installation
-      site.
+    summary: The devices services give access to all devices of a whole installation site.
     description: ''
     get:
       summary: Get the basic data set of all device objects.
@@ -1275,9 +1511,8 @@ paths:
   /api/devices/*:
     get:
       summary: Get all devices with all properties.
-      description: >
-        > **_Attention:_** This service takes very long time at the first call!
-        Approx. 1 second per device. So with 60 devices it takes 1 minute.
+      description: |
+        > **_Attention:_** This service takes very long time at the first call! Approx. 1 second per device. So with 60 devices it takes 1 minute.
       operationId: getDevicesWithProperties
       tags:
         - Devices
@@ -1300,7 +1535,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of a device
+          description: the id of a Device
           required: true
           schema:
             type: string
@@ -1322,7 +1557,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of a device
+          description: the id of a Device
           required: true
           schema:
             type: string
@@ -1337,9 +1572,7 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/devices/{id}/config:
     get:
-      summary: >-
-        Get a new configuration object and set the device into configuration
-        mode.
+      summary: Get a new configuration object and set the device into configuration mode.
       description: ''
       operationId: showDeviceConfigById
       tags:
@@ -1347,7 +1580,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of a device
+          description: the id of a Device
           required: true
           schema:
             type: string
@@ -1360,11 +1593,35 @@ paths:
                 $ref: '#/components/schemas/dataDeviceConfigItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/devices/{id}/config/inputs:
+    get:
+      summary: Get a new configuration object only with inputs and set the device into configuration mode.
+      description: |
+        This service responds much faster than reading the complete configuration and can be used if only the LEDs needs to be configured.
+      operationId: showDeviceConfigInputsById
+      tags:
+        - Devices
+      parameters:
+        - name: id
+          in: path
+          description: the id of a Device
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataDeviceConfigInputsAndDesignItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
   /api/devices/config/{config_id}/inputs/{input_channel}:
     get:
       summary: Get the configuration of a device input.
       description: Response content can varies depending on input-type!
-      operationId: showDeviceInputConfigById
+      operationId: showDeviceConfigInputsByConfigId
       tags:
         - Devices
       parameters:
@@ -1386,13 +1643,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataDeviceInputConfigItemRes'
+                $ref: '#/components/schemas/dataDeviceConfigInputsItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Change the configuration of a device input.
       description: ''
-      operationId: patchDeviceInputConfigById
+      operationId: patchDeviceConfigInputsByConfigId
       tags:
         - Devices
       parameters:
@@ -1420,14 +1677,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataDeviceInputConfigItemRes'
+                $ref: '#/components/schemas/dataDeviceConfigInputsItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/devices/config/{config_id}/outputs/{output_channel}:
     get:
       summary: Get the configuration of a device output.
       description: Response content can varies depending on output-type!
-      operationId: showDeviceOutputConfigById
+      operationId: showDeviceConfigOutputsByConfigId
       tags:
         - Devices
       parameters:
@@ -1449,13 +1706,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataDeviceOutputConfigItemRes'
+                $ref: '#/components/schemas/dataDeviceConfigOutputsItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Change the configuration of a device channel.
       description: ''
-      operationId: patchDeviceOutputConfigById
+      operationId: patchDeviceConfigOutputsByIdConfigId
       tags:
         - Devices
       parameters:
@@ -1483,14 +1740,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/dataDeviceOutputConfigItemRes'
+                $ref: '#/components/schemas/dataDeviceConfigOutputsItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/devices/config/{config_id}:
     get:
       summary: Get the current configuration.
       description: ''
-      operationId: showCurrentDeviceConfigById
+      operationId: showCurrentDeviceConfigByConfigId
       tags:
         - Devices
       parameters:
@@ -1512,7 +1769,7 @@ paths:
     put:
       summary: Apply the current configuration.
       description: ''
-      operationId: putCurrentDeviceConfigById
+      operationId: putCurrentDeviceConfigByConfigId
       tags:
         - Devices
       parameters:
@@ -1534,7 +1791,7 @@ paths:
     delete:
       summary: Discard the current configuration.
       description: ''
-      operationId: deleteCurrentDeviceConfigById
+      operationId: deleteCurrentDeviceConfigByConfigId
       tags:
         - Devices
       parameters:
@@ -1556,9 +1813,8 @@ paths:
   /api/devices/findme:
     put:
       summary: This service puts all devices into the find-me mode.
-      description: >
-        If the *find me* mode is on, all devices lights up. As soon as a button
-        is pressed, all devices stops lighting up.
+      description: |
+        If the *find me* mode is on, all devices lights up. As soon as a button is pressed, all devices stops lighting up.
       operationId: putDevicesFindme
       tags:
         - Devices
@@ -1571,6 +1827,22 @@ paths:
                 $ref: '#/components/schemas/dataDeviceFindmeItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/devices/info:
+    get:
+      summary: General information about the connected devices.
+      description: ''
+      operationId: getDevicesInfo
+      tags:
+        - Devices
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataDeviceInfoItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
   /api/devices/{id}/ping:
     get:
       summary: Device will light up the yellow LEDs of all buttons for a short time.
@@ -1581,7 +1853,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of a device
+          description: the id of a Device
           required: true
           schema:
             type: string
@@ -1592,6 +1864,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/dataDevicePingItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/devices/motor/calibration:
+    get:
+      summary: Calibration of all motor-actuators.
+      description: |
+        In new installations all motor-actuators must be calibrated before they can be used e.g. in a scene.
+        This means that each motor-actuator must be moved once to the lower- and upper-end of the blind.
+
+        After that, the motor-actuator knows the position of the blind and
+        the learning flag in the blind-load status message is no longer set.
+
+        There is no response data on successful calibration.
+        The service returns an error, if a calibration is already running or if the calibration is not possible.
+
+        > **_Hint:_** This service can take a long time (up to 6 minutes) depending on the size of the blinds (windows) or bad installations!
+      operationId: getDevicesMotorCalibration
+      tags:
+        - Devices
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataGenericNullItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/timers:
@@ -1641,7 +1939,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the timer
+          description: the id of the Timer
           required: true
           schema:
             type: integer
@@ -1656,16 +1954,15 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
       summary: Put new values into an existing timer.
-      description: >
-        Values of missing keys are reset to defaults. Unknown properties will be
-        stored but ignored. A successful response contains the changed timer.
+      description: |
+        Values of missing keys are reset to defaults. Unknown properties will be stored but ignored. A successful response contains the changed timer.
       operationId: putTimerById
       tags:
         - Timers
       parameters:
         - name: id
           in: path
-          description: the unique id of the timer
+          description: the id of the Timer
           required: true
           schema:
             type: integer
@@ -1686,16 +1983,15 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Patch new values into some properties of an existing timer.
-      description: >
-        Values of missing keys are preserved. Unknown properties will be stored
-        but ignored. A successful response contains the changed timer.
+      description: |
+        Values of missing keys are preserved. Unknown properties will be stored but ignored. A successful response contains the changed timer.
       operationId: patchTimerById
       tags:
         - Timers
       parameters:
         - name: id
           in: path
-          description: the unique id of the timer
+          description: the id of the Timer
           required: true
           schema:
             type: integer
@@ -1723,7 +2019,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the timer
+          description: the id of the Timer
           required: true
           schema:
             type: integer
@@ -1795,7 +2091,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the scheduler
+          description: the id of the Scheduler
           required: true
           schema:
             type: integer
@@ -1810,9 +2106,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Patch new values into some properties of an existing scheduler.
-      description: >
-        Values of missing keys are preserved. A successful response contains the
-        changed scheduler.
+      description: |
+        Values of missing keys are preserved. A successful response contains the changed scheduler.
       operationId: patchSchedulderById
       tags:
         - Schedulers
@@ -1823,7 +2118,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the scheduler
+          description: the id of the Scheduler
           required: true
           schema:
             type: integer
@@ -1844,9 +2139,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
       summary: Put new properties into an existing scheduler.
-      description: >
-        Missing properties are removed. A successful response contains the
-        changed scheduler.
+      description: |
+        Missing properties are removed. A successful response contains the changed scheduler.
       operationId: putSchedulderById
       tags:
         - Schedulers
@@ -1857,7 +2151,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the scheduler
+          description: the id of the Scheduler
           required: true
           schema:
             type: integer
@@ -1889,7 +2183,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the scheduler
+          description: the id of the Scheduler
           required: true
           schema:
             type: integer
@@ -1918,6 +2212,28 @@ paths:
                 $ref: '#/components/schemas/dataSmartButtonsItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+    post:
+      summary: Create a SmartButton directly.
+      description: |
+        If you know all the details of the button, such as the device id and button channel, you can use this service to create a SmartButton directly. With this service, any button can become a SmartButton.
+      operationId: postSmartButtons
+      tags:
+        - Smart Buttons
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataSmartButtonsItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataSmartButtonsItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
   /api/smartbuttons/{id}:
     get:
       summary: Get one SmartButton by id with all its properties.
@@ -1928,7 +2244,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the SmartButton
+          description: the id of the SmartButton
           required: true
           schema:
             type: integer
@@ -1942,20 +2258,18 @@ paths:
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
-      summary: Store a job on that specified SmartButton.
-      description: >
+      summary: Set or change the Job that will be run when the SmartButton is pressed.
+      description: |
+        Patching attribute "job" to `null` will unlink the SmartButton from its current Job, but it will not delete the Job!
         A successful response contains the changed SmartButton.
-
-        > **_Warning:_** Changing a job involves a lot of communication between
-        µGateway and devices! This service may take a few seconds before the
-        response is sent back!
+        > **_Warning:_** Changing a job involves a lot of communication between µGateway and devices! This service may take a few seconds before the response is sent back!
       operationId: patchSmartButtonById
       tags:
         - Smart Buttons
       parameters:
         - name: id
           in: path
-          description: the unique id of the SmartButton
+          description: the id of the SmartButton
           required: true
           schema:
             type: integer
@@ -1977,9 +2291,8 @@ paths:
   /api/smartbuttons/program:
     post:
       summary: Prepare or abort programming mode.
-      description: >
-        The SmartButtons do not start blinking yet! But the µGateway is ready to
-        receive the notify request.
+      description: |
+        The SmartButtons do not start blinking yet! But the µGateway is ready to receive the notify request.
       operationId: postButtonProgram
       tags:
         - Smart Buttons
@@ -2001,10 +2314,8 @@ paths:
   /api/smartbuttons/notify:
     get:
       summary: Start blinking all SmartButtons and wait until one is pressed.
-      description: >
-        As soon as one blinking SmartButton is pressed, all SmartButtons stop
-        blinking and the notify request comes back with a response. If no
-        SmartButton is pressed, an error response is sent.
+      description: |
+        As soon as one blinking SmartButton is pressed, all SmartButtons stop blinking and the notify request comes back with a response. If no SmartButton is pressed, an error response is sent.
       operationId: getSmartButtonNotify
       tags:
         - Smart Buttons
@@ -2034,12 +2345,9 @@ paths:
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
     post:
-      summary: >-
-        Create a new job with a unique id and given target states, a button
-        control and/or scripts.
-      description: >
-        The target states without state properties will be completed with the
-        current state of their Loads.
+      summary: Create a new job with a unique id and given target states, a button control and/or scripts.
+      description: |
+        The target states without state properties will be completed with the current state of their Loads.
       operationId: postJob
       tags:
         - Jobs
@@ -2068,7 +2376,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2082,9 +2390,7 @@ paths:
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
-      summary: >-
-        Replace the flag values, target states, button control or scripts in an
-        existing Job.
+      summary: Replace the flag values, target states, button control or scripts in an existing Job.
       description: |
         A successful response contains the changed job.
       operationId: putJobById
@@ -2093,7 +2399,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2113,21 +2419,16 @@ paths:
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
-      summary: >-
-        Append more loads with their current or given states to the existing
-        target states.
-      description: >
-        Append more flag values to the existing ones. Change the event and/or
-        button in the existing button control, or append more Loads to it.
-        Append more filenames to the existing list of scripts. A successful
-        response contains the changed Job.
+      summary: Append more loads with their current or given states to the existing target states.
+      description: |
+        Append more flag values to the existing ones. Change the event and/or button in the existing button control, or append more Loads to it. Append more filenames to the existing list of scripts. A successful response contains the changed Job.
       operationId: patchJobById
       tags:
         - Jobs
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2155,7 +2456,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2168,19 +2469,41 @@ paths:
                 $ref: '#/components/schemas/dataJobItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/jobs/loads:
+    delete:
+      summary: Delete specified loads from all jobs.
+      description: |
+        Delete the specified loads from all jobs and remove their associated bindings. A successful response contains the list of ids of the deleted loads.
+      operationId: deleteJobLoads
+      tags:
+        - Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataJobLoadsItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataJobLoadsItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
   /api/jobs/{id}/setflags:
     get:
       summary: Assign all flag values to their corresponding System Flags.
-      description: >
-        The target states, button control and scripts are ignored by this
-        method! A successful response contains the Job.
+      description: |
+        The target states, button control and scripts are ignored by this method! A successful response contains the Job.
       operationId: getJobFlagsById
       tags:
         - Jobs
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2196,16 +2519,15 @@ paths:
   /api/jobs/{id}/run:
     get:
       summary: Send all target states to their corresponding Loads.
-      description: >
-        The flag values, button control and scripts are ignored by this method!
-        A successful response contains the Job.
+      description: |
+        The flag values, button control and scripts are ignored by this method! A successful response contains the Job.
       operationId: getJobRunById
       tags:
         - Jobs
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2221,16 +2543,15 @@ paths:
   /api/jobs/{id}/ctrl:
     get:
       summary: Send the stored button control to all its Loads.
-      description: >
-        The flag values, target states and scripts are ignored by this method! A
-        successful response contains the Job.
+      description: |
+        The flag values, target states and scripts are ignored by this method! A successful response contains the Job.
       operationId: getJobCtrlById
       tags:
         - Jobs
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2246,17 +2567,15 @@ paths:
   /api/jobs/{id}/ctrl/{evt}/{btn}:
     get:
       summary: Send the button control from the URL path to all stored Loads.
-      description: >
-        Send the button control from the URL path to all stored Loads. The flag
-        values, target states and scripts are ignored by this method! A
-        successful response contains the Job.
+      description: |
+        Send the button control from the URL path to all stored Loads. The flag values, target states and scripts are ignored by this method! A successful response contains the Job.
       operationId: getJobCtrlEvtBtnById
       tags:
         - Jobs
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2284,24 +2603,47 @@ paths:
   /api/jobs/{id}/execute:
     get:
       summary: Execute all scripts of a job.
-      description: >
-        Scripts must be uploaded before execution by the `scripts` service. The
-        flag values, target states and the button control are ignored by this
-        method!
-
+      description: |
+        Scripts must be uploaded before execution by the `scripts` service. The flag values, target states and the button control are ignored by this method!
 
         A successful response contains the Job.
 
-
-        In case of an exception the error response contains the last line of the
-        Traceback.
+        In case of an exception the error response contains the last line of the Traceback.
       operationId: getJobExecuteById
       tags:
         - Jobs
       parameters:
         - name: id
           in: path
-          description: the unique id of the job
+          description: the id of the Job
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataJobItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/jobs/{id}/trigger:
+    get:
+      summary: Trigger the whole job.
+      description: |
+        Execute all target states, button controls, scripts and system flags.
+
+        A successful response contains the Job.
+
+        In case of an exception the error response contains the last line of the Traceback.
+      operationId: getJobTriggerById
+      tags:
+        - Jobs
+      parameters:
+        - name: id
+          in: path
+          description: the id of the Job
           required: true
           schema:
             type: integer
@@ -2373,7 +2715,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the group-ctrl
+          description: the id of the GroupCtrl
           required: true
           schema:
             type: integer
@@ -2388,9 +2730,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
       summary: Put new values into an existing group-ctrl.
-      description: >
-        Missing properties are removed. A successful response contains the
-        changed group-ctrl.
+      description: |
+        Missing properties are removed. A successful response contains the changed group-ctrl.
       operationId: putGroupCtrlById
       tags:
         - Group Ctrls
@@ -2401,7 +2742,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the group-ctrl
+          description: the id of the GroupCtrl
           required: true
           schema:
             type: integer
@@ -2422,9 +2763,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Patch new values into some properties of an existing group-ctrl.
-      description: >
-        Values of missing keys are preserved. A successful response contains the
-        changed group.
+      description: |
+        Values of missing keys are preserved. A successful response contains the changed group.
       operationId: patchGroupCtrlById
       tags:
         - Group Ctrls
@@ -2435,7 +2775,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the group-ctrl
+          description: the id of the GroupCtrl
           required: true
           schema:
             type: integer
@@ -2467,7 +2807,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the group-ctrl
+          description: the id of the GroupCtrl
           required: true
           schema:
             type: integer
@@ -2539,7 +2879,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the scene
+          description: the id of the Scene
           required: true
           schema:
             type: integer
@@ -2554,9 +2894,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     put:
       summary: Put new properties into an existing scene.
-      description: >
-        Missing properties are removed. A successful response contains the
-        changed scene.
+      description: |
+        Missing properties are removed. A successful response contains the changed scene.
       operationId: putSceneById
       tags:
         - Scenes
@@ -2567,7 +2906,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the scene
+          description: the id of the Scene
           required: true
           schema:
             type: integer
@@ -2588,9 +2927,8 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Patch new values into some properties of an existing scene.
-      description: >
-        Values of missing keys are preserved. A successful response contains the
-        changed scene.
+      description: |
+        Values of missing keys are preserved. A successful response contains the changed scene.
       operationId: patchSceneById
       tags:
         - Scenes
@@ -2601,7 +2939,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the scene
+          description: the id of the Scene
           required: true
           schema:
             type: integer
@@ -2633,7 +2971,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the scene
+          description: the id of the Scene
           required: true
           schema:
             type: integer
@@ -2646,13 +2984,663 @@ paths:
                 $ref: '#/components/schemas/dataSceneItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/hvacgroups:
+    get:
+      summary: Get a list of all HVAC-Groups.
+      description: ''
+      operationId: getHVACGroups
+      tags:
+        - HVAC Groups
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupsItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    post:
+      summary: Create a new HVAC-Group with given loads list and a unique id.
+      description: ''
+      operationId: postHVACGroup
+      tags:
+        - HVAC Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataHVACGroupItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/hvacgroups/{id}:
+    get:
+      summary: Get one HVAC-Group by id with all its properties.
+      description: ''
+      operationId: getHVACGroupById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupStateItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    put:
+      summary: Replace the loads in an existing HVAC-Group.
+      description: |
+        A successful response contains the changed HVAC-Group.
+      operationId: putHVACGroupById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataHVACGroupItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    patch:
+      summary: Append more loads to the existing loads list.
+      description: ''
+      operationId: patchHVACGroupById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataHVACGroupPatchItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Delete an existing HVAC-Group.
+      description: A successful response contains the deleted HVAC-Group.
+      operationId: deleteHVACGroupById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/hvacgroups/{id}/bind:
+    get:
+      summary: Ask for HVAC-Group binding-state.
+      description: ''
+      operationId: getHVACGroupBindById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupBindStateItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    put:
+      summary: Stop HVAC-Group binding.
+      description: ''
+      operationId: putHVACGroupBindById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataHVACGroupBindStateItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupBindStateItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    patch:
+      summary: Bind an existing HVAC-Group to a thermostat.
+      description: |
+        When this service is called, all the thermostats start flashing.
+        After pressing the button of the thermostat, the binding between a HVAC-Group and a thermostat is created.
+      operationId: patchHVACGroupBindById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupBindItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Delete an existing HVAC-Group binding from a thermostat.
+      description: ''
+      operationId: deleteHVACGroupBindById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/hvacgroups/{id}/target_state:
+    put:
+      summary: Set target state on HVAC-Group.
+      description: ''
+      operationId: putHVACGroupTargetStateById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataHVACGroupTargetStateItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupTargetStateItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/hvacgroups/state:
+    get:
+      summary: Get all HVAC-Group states.
+      description: ''
+      operationId: getHVACGroupsStates
+      tags:
+        - HVAC Groups
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupStatesItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/hvacgroups/{id}/config:
+    get:
+      summary: Create a new HVAC-Group-Configuration object and set the HVAC-Group into configuration mode.
+      description: ''
+      operationId: createHVACGroupConfigById
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the HVAC-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupConfigItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/hvacgroups/configs/{config_id}:
+    get:
+      summary: Get an existing HVAC-Group-Configuration object.
+      description: ''
+      operationId: getHVACGroupByConfigId
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: config_id
+          in: path
+          description: the id of the HVAC-Group-Configuration
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupConfigItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    patch:
+      summary: Change the HVAC-Group-Configuration object.
+      description: ''
+      operationId: patchHVACGroupByConfigId
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: config_id
+          in: path
+          description: the id of the HVAC-Group-Configuration
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataHVACGroupConfigPatchItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupConfigItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    put:
+      summary: Apply and close the HVAC-Group-Configuration object.
+      description: ''
+      operationId: putHVACGroupByConfigId
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: config_id
+          in: path
+          description: the id of the HVAC-Group-Configuration
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupConfigItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Discard and close the HVAC-Group-Configuration object.
+      description: ''
+      operationId: deleteHVACGroupByConfigId
+      tags:
+        - HVAC Groups
+      parameters:
+        - name: config_id
+          in: path
+          description: the id of the HVAC-Group-Configuration
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataHVACGroupConfigItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/westgroups:
+    get:
+      summary: Get a list of all WEST-Groups.
+      description: ''
+      operationId: getWESTGroups
+      tags:
+        - WEST Groups
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupsItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    post:
+      summary: Create a new WEST-Group with given loads list and a unique id.
+      description: ''
+      operationId: postWESTGroup
+      tags:
+        - WEST Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataWESTGroupItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/westgroups/{id}:
+    get:
+      summary: Get one WEST-Group by id with all its properties.
+      description: ''
+      operationId: getWESTGroupById
+      tags:
+        - WEST Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the WEST-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    put:
+      summary: Replace the loads or WEST-protection in an existing WEST-Group.
+      description: |
+        A successful response contains the changed WEST-Group.
+      operationId: putWESTGroupById
+      tags:
+        - WEST Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the WEST-Group
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataWESTGroupItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    patch:
+      summary: Append more loads to the existing loads list.
+      description: ''
+      operationId: patchWESTGroupById
+      tags:
+        - WEST Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the WEST-Group
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataWESTGroupPatchItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Delete an existing WEST-Group.
+      description: A successful response contains the deleted WEST-Group.
+      operationId: deleteWESTGroupById
+      tags:
+        - WEST Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the WEST-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/westgroups/{id}/bind:
+    patch:
+      summary: Bind an existing WEST-Group to a weather-station.
+      description: |
+        When this service is called, all the weather-stations start flashing.
+        After pressing the button of the weather-station, the binding between a WEST-Group and a weather-station is created.
+      operationId: patchWESTGroupBindById
+      tags:
+        - WEST Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the WEST-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupBindItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Delete an existing WEST-Group binding from a weather-station.
+      description: ''
+      operationId: deleteWESTGroupBindById
+      tags:
+        - WEST Groups
+      parameters:
+        - name: id
+          in: path
+          description: the id of the WEST-Group
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/westgroups/test:
+    get:
+      summary: Show current test.
+      description: ''
+      operationId: getWESTGroupsTest
+      tags:
+        - WEST Groups
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupsTestItem'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    put:
+      summary: Test the West-Groups with a weather event.
+      description: ''
+      operationId: putWESTGroupsTest
+      tags:
+        - WEST Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataWESTGroupsTestItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupsTestItem'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    patch:
+      summary: Increase test time.
+      description: ''
+      operationId: patchWESTGroupsTest
+      tags:
+        - WEST Groups
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupsTestItem'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Stop current test.
+      description: ''
+      operationId: deleteWESTGroupsTest
+      tags:
+        - WEST Groups
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataWESTGroupsTestItem'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
   /api/system/health:
     get:
       summary: Get system health parameters.
-      description: >
-        The parameter `wlan_resets` counts system resets caused by WLAN adapter
-        problems (excluding disassociation events). It counts up to 10 resets
-        during the last hour or after last power-up.
+      description: |
+        The parameter `wlan_resets` counts system resets caused by WLAN adapter problems (excluding disassociation events). It counts up to 10 resets during the last hour or after last power-up.
       operationId: getSystemHealth
       tags:
         - System
@@ -2679,6 +3667,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/dataGenericNullItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    post:
+      summary: Delayed reboot of the µGateway.
+      description: Reboot the µGateway with a delay interval in seconds from `0 ... 60`.
+      operationId: postSystemReboot
+      tags:
+        - System
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataSystemRebootPostItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataSystemRebootPostItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
   /api/system/network-reset:
@@ -2744,7 +3753,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the System Flag
+          description: the id of the Flag
           required: true
           schema:
             type: integer
@@ -2759,16 +3768,15 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Patch new values into some properties of an existing System Flag.
-      description: >
-        Values of missing keys are preserved. A successful response contains the
-        changed Flag.
+      description: |
+        Values of missing keys are preserved. A successful response contains the changed Flag.
       operationId: patchSystemFlagsById
       tags:
         - System
       parameters:
         - name: id
           in: path
-          description: the unique id of the System Flag
+          description: the id of the Flag
           required: true
           schema:
             type: integer
@@ -2796,7 +3804,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the System Flag
+          description: the id of the Flag
           required: true
           schema:
             type: integer
@@ -2856,7 +3864,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the System Condition
+          description: the id of the Condition
           required: true
           schema:
             type: integer
@@ -2871,16 +3879,15 @@ paths:
           $ref: '#/components/responses/ApiStatusErrorRes'
     patch:
       summary: Patch new values into some properties of an existing System Condition.
-      description: >
-        Values of missing keys are preserved. A successful response contains the
-        changed Condition.
+      description: |
+        Values of missing keys are preserved. A successful response contains the changed Condition.
       operationId: patchSystemConditionsById
       tags:
         - System
       parameters:
         - name: id
           in: path
-          description: the unique id of the System Condition
+          description: the id of the Condition
           required: true
           schema:
             type: integer
@@ -2908,7 +3915,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: the unique id of the System Condition
+          description: the id of the Condition
           required: true
           schema:
             type: integer
@@ -2921,24 +3928,209 @@ paths:
                 $ref: '#/components/schemas/dataSystemConditionItemRes'
         default:
           $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/scripts:
+    summary: 'Scripts: /scripts'
+    description: |
+      These services can upload, show, delete, start and stop your scripts. To write a script, you will find the necessary information in the `script_framework`-chapter
+    get:
+      summary: Show all uploaded scripts.
+      description: ''
+      operationId: showScripts
+      tags:
+        - Scripts
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataScriptsItemsRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/scripts/{script_name}:
+    post:
+      summary: Upload a script-file and store it with the specified name.
+      description: |
+        If a script-file with this name already exists it will be overwritten.
+      operationId: postScriptFile
+      tags:
+        - Scripts
+      parameters:
+        - name: script_name
+          in: path
+          description: name of the script-file
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              $ref: '#/components/schemas/dataScriptsItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataScriptsItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Delete the script-file with the specified name.
+      description: ''
+      operationId: deleteScriptFile
+      tags:
+        - Scripts
+      parameters:
+        - name: script_name
+          in: path
+          description: name of the script-file
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataScriptsItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/scripts/{script_name}/start:
+    get:
+      summary: Start a script.
+      description: |
+        This will call the `onStart()` function in your script.
+      operationId: getScriptStart
+      tags:
+        - Scripts
+      parameters:
+        - name: script_name
+          in: path
+          description: name of the script-file
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataScriptsStartItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/scripts/{script_name}/stop:
+    get:
+      summary: Stop a script.
+      description: |
+        This will call the `onStop()` function in your script.
+      operationId: getScriptStop
+      tags:
+        - Scripts
+      parameters:
+        - name: script_name
+          in: path
+          description: name of the script-file
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataScriptsStopItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/scripts/cron:
+    summary: 'Cron-Scripts: /scripts/cron'
+    description: |
+      Get cron-scripts
+    get:
+      summary: Show all scripts that are triggered by a cron-job.
+      description: ''
+      operationId: getScriptsCron
+      tags:
+        - Scripts
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataScriptsCronItemsRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+  /api/scripts/{script_name}/cron:
+    patch:
+      summary: Link a script with a cron-job.
+      description: |
+        Link a script with a cron-job. After that, the function `onCronEvent()` will be called accordingly.
+      operationId: patchScriptCron
+      tags:
+        - Scripts
+      parameters:
+        - name: script_name
+          in: path
+          description: name of the script-file
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataScriptsCronItemReq'
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataScriptsCronItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
+    delete:
+      summary: Delete a cron-job of a script.
+      description: ''
+      operationId: deleteScriptCron
+      tags:
+        - Scripts
+      parameters:
+        - name: script_name
+          in: path
+          description: name of the script-file
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response JSON Objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataScriptsCronItemRes'
+        default:
+          $ref: '#/components/responses/ApiStatusErrorRes'
 components:
   securitySchemes:
     SecretAuth:
       type: http
       scheme: bearer
       bearerFormat: UUID4
-      description: >
+      description: |
         Get your own secret-key and store your account information.
 
-
-        If you access with the secret-key in the authorization header you get
-        your own
-
+        If you access with the secret-key in the authorization header you get your own
         loads, rooms, scenes and groups objects.
 
-
-        As soon you claim a scene or group with a SmartButton they will be
-        available for every user.
+        As soon you claim a scene or group with a SmartButton they will be available for every user.
   schemas:
     ApiStatusError:
       type: object
@@ -2978,7 +4170,7 @@ components:
                   example: 9020.001.002
                 instance_id:
                   type: integer
-                  description: unique Nubes cloud instance ID of this µGateway
+                  description: unique Nubes Cloud instance ID of µGateway
                   example: 1800
                 sn:
                   type: string
@@ -2986,18 +4178,20 @@ components:
                   example: '19100018'
                 api:
                   type: string
-                  description: 'version of µGateway REST API: `MAJOR.MINOR` as string'
+                  description: version of µGateway ReST API `MAJOR.MINOR`
                   example: '2.0'
                 sw:
                   type: string
-                  description: 'version of µGateway software: `MAJOR.MINOR.PATCH` as string'
+                  description: version of µGateway Software `MAJOR.MINOR.PATCH`
                   example: 2.0.0
                 boot:
                   type: string
-                  description: >-
-                    version of µGateway Bootloader: `MAJOR.MINOR.PATCH` as
-                    string
+                  description: version of µGateway Bootloader `MAJOR.MINOR.PATCH`
                   example: 1.3.0
+                hw:
+                  type: string
+                  description: version of µGateway Hardware `MAJOR`
+                  example: '2'
     dataInfoDebugItemRes:
       type: object
       allOf:
@@ -3013,7 +4207,7 @@ components:
                   example: 9020.001.002
                 instance_id:
                   type: integer
-                  description: unique Nubes cloud instance ID of this µGateway
+                  description: unique Nubes Cloud instance ID of µGateway
                   example: 1800
                 sn:
                   type: string
@@ -3021,19 +4215,19 @@ components:
                   example: '19100018'
                 api:
                   type: string
-                  description: 'version of µGateway REST API: `MAJOR.MINOR` as string'
+                  description: version of µGateway ReST API `MAJOR.MINOR`
                   example: '2.0'
                 sw:
                   type: string
-                  description: 'version of µGateway software: `MAJOR.MINOR.PATCH` as string'
+                  description: version of µGateway Software `MAJOR.MINOR.PATCH`
                   example: 2.0.0
                 sw_git:
                   type: string
-                  description: Git hash of µGateway software
+                  description: Git hash of µGateway Software
                   example: 09bae09-dirty
                 sw_build:
                   type: string
-                  description: build time of µGateway software
+                  description: build time of µGateway Software
                   example: '2019-02-17T12:21:27'
                 mpy:
                   type: string
@@ -3045,13 +4239,11 @@ components:
                   example: 7ef9482b8
                 boot:
                   type: string
-                  description: >-
-                    version of µGateway Bootloader: `MAJOR.MINOR.PATCH` as
-                    string
+                  description: version of µGateway Bootloader `MAJOR.MINOR.PATCH`
                   example: 1.3.0
                 hw:
                   type: string
-                  description: version of µGateway hardware (only `MAJOR` as string)
+                  description: version of µGateway Hardware `MAJOR`
                   example: '2'
                 wlan:
                   type: string
@@ -3100,13 +4292,11 @@ components:
               properties:
                 interval:
                   type: integer
-                  description: interval in hours to try NTP, or 0 if NTP is disabled
+                  description: interval in hours to try NTP or `0` if NTP is disabled
                   example: 12
                 urls:
                   type: array
-                  description: >-
-                    array of URL or IP strings that defines which NTP servers to
-                    try in what order
+                  description: array of URL or IP strings that defines which NTP servers to try in what order (without duplicates)
                   items:
                     type: string
                     description: URL or IP string
@@ -3189,9 +4379,7 @@ components:
                     description: the Basic Service Set ID of the WLAN (MAC address)
                   rssi:
                     type: integer
-                    description: >-
-                      the Received Signal Strength Indicator, between 0dBm
-                      (best) and -99dBm (worst)
+                    description: the Received Signal Strength Indicator, between 0dBm (best) and -99dBm (worst)
     dataMdnsServiceTypeRes:
       type: object
       allOf:
@@ -3203,41 +4391,35 @@ components:
               properties:
                 lisa:
                   type: object
-                  description: >-
-                    map of hostnames to IP addresses that offer Feller µGateway
-                    services
+                  description: map `hostname` to `ip-address:port` of hosts that offer Lisa services
                   example:
-                    wiser-19012161: 192.168.1.152:80
-                    wiser-19023254: 192.168.1.87:80
+                    wiser-20012161: 192.168.1.152:80
+                    wiser-20023254: 192.168.1.87:80
                 zapp:
                   type: object
-                  description: >-
-                    map of hostnames to IP addresses that offer zeptrionAir
-                    services
+                  description: map `hostname` to `ip-address:port` of hosts that offer zeptrionAir services
                   example:
                     zapp-17210151: 192.168.1.18:80
                     zapp-17220047: 192.168.1.17:80
                 http:
                   type: object
-                  description: map of hostnames to IP addresses that offer HTTP services
+                  description: map `hostname` to `ip-address:port` of hosts that offer HTTP services
                   example: {}
               example:
                 lisa:
-                  wiser-19012161: 192.168.1.152:80
-                  wiser-19023254: 192.168.1.87:80
+                  wiser-20012161: 192.168.1.155:80
+                  wiser-20023254: 192.168.1.87:80
                 zapp:
                   zapp-17210151: 192.168.1.18:80
                   zapp-17220047: 192.168.1.17:80
-                  zapp-19012161: 192.168.1.152:80
-                  zapp-19023254: 192.168.1.87:80
+                  zapp-20012161: 192.168.1.155:80
+                  zapp-20023254: 192.168.1.87:80
     dataMdnsServiceItemReq:
       type: object
       properties:
         service:
           type: string
-          description: >-
-            [default = `http`] the MDNS service type to discover, like `lisa` or
-            `zapp`
+          description: '[default = `http`] the MDNS service type to discover, like `lisa` or `zapp`'
           example: lisa
     dataWlanConfItemListRes:
       type: object
@@ -3315,7 +4497,7 @@ components:
               properties:
                 id:
                   type: integer
-                  description: the id of a WLAN configuration
+                  description: id of the WLAN configuration
                   example: 1
                 ssid:
                   type: string
@@ -3336,6 +4518,17 @@ components:
                 _confirmed:
                   type: boolean
                   example: false
+    dataGenericNullItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              description: no response data on successful action
+              nullable: true
+              example: null
     dataWlanConfItemReq:
       type: object
       properties:
@@ -3371,6 +4564,10 @@ components:
                   type: string
                   description: '[read-only] IPv4 address of the µGateway'
                   example: 192.168.7.244
+                mac_addr:
+                  type: string
+                  description: '[read-only] MAC address of the µGateway'
+                  example: '02:03:04:05:06:07'
                 cloud_cn:
                   type: string
                   description: '[read-only] Nubes common name, or "" if no Cloud is setup'
@@ -3379,31 +4576,24 @@ components:
                   type: integer
                   description: '[read-only] id of the current WLAN configuration'
                   example: 1
-                https:
-                  type: boolean
-                  description: >-
-                    Set `true` if the https server is secured with SSL, else
-                    `false`
-                  example: false
                 order:
                   type: array
-                  description: >-
-                    array of WLAN configuration ids that defines the order to
-                    try them
+                  description: array of WLAN configuration ids defining the order to try them
                   items:
                     type: integer
                   example:
                     - 1
                     - 2
+                mdns_discovery:
+                  type: array
+                  description: array of currently monitored MDNS service types
+                  items:
+                    type: string
+                  example:
+                    - http
     dataStateConfItemReq:
       type: object
       properties:
-        https:
-          type: boolean
-          description: >-
-            [optional, default = `false`] `true` if the https server is secured
-            with SSL
-          example: false
         order:
           type: array
           description: '[optional, default = `[]`] new array of WLAN configuration ids'
@@ -3413,6 +4603,14 @@ components:
             - 3
             - 1
             - 4
+        mdns_discovery:
+          type: array
+          description: '[optional, default = `[]`] new array of MDNS service types to monitor, i.e. `["http"]`'
+          items:
+            type: string
+          example:
+            - lisa
+            - http
     dataRssiItemRes:
       type: object
       allOf:
@@ -3424,7 +4622,7 @@ components:
               properties:
                 rssi:
                   type: integer
-                  description: current RSSI in dBm between -1 and -100
+                  description: current RSSI in dBm between -100 and -1
                   example: -69
     dataRoomsItemRes:
       type: object
@@ -3484,15 +4682,15 @@ components:
               properties:
                 id:
                   type: integer
-                  description: The id of a room
+                  description: '[read-only] id of the Room'
                   example: 2
                 name:
                   type: string
-                  description: name of the room
+                  description: '[app-only] name of the Room'
                   example: Tina's room
                 kind:
                   type: integer
-                  description: kind of room
+                  description: '[app-only] kind of the Room'
                   example: 12
     dataRoomItemModReq:
       type: object
@@ -3564,23 +4762,24 @@ components:
       properties:
         name:
           type: string
-          description: >
-            UTF-8 string for the name of a load (e.g. ceiling spots,
-            chandeliers, window west, stand lamp) defined by the user
+          description: |
+            UTF-8 string for the name of a load (e.g. ceiling spots, chandeliers, window west, stand lamp) defined by the user
           example: Esstisch Lampe
         unused:
           type: boolean
-          description: >
-            [optional, default = false] flag to indicate that the underlying
-            load is currently not used (no load is physically connected to that
-            channel)
+          description: |
+            [optional, default = false] flag to indicate that the underlying load is currently not used (no load is physically connected to that channel)
           example: false
         type:
           type: string
-          description: >
-            [read-only] a string describing the main-type of the channel the
-            load is connected to [`onoff`, `dim`, `motor` or `dali`]
+          description: |
+            [read-only] a string describing the main-type of the channel the load is connected to [`onoff`, `dim`, `motor` or `dali`]
           example: onoff
+        sub_type:
+          type: string
+          description: |
+            [read-only, default = `""`] output channel sub-type
+          example: ''
         device:
           type: string
           description: |
@@ -3589,20 +4788,17 @@ components:
         channel:
           type: integer
           description: |
-            [read-only] reference id to the physical device
+            [read-only] channel of the physical device
           example: 0
         room:
           type: integer
-          description: >
-            [app-only] reference to an id of a room created and deleted by the
-            app
+          description: |
+            [app-only] reference to an id of a room created and deleted by the app
           example: 123
         kind:
           type: integer
-          description: >
-            [app-only] property to store a value that corresponds to the icon
-            [Light:0, Switch:1] [Motor:0, Venetian blinds:1, Roller shutters:2,
-            Awnings:3]
+          description: |
+            [app-only] property to store a value that corresponds to the icon [Light:0, Switch:1] [Motor:0, Venetian blinds:1, Roller shutters:2, Awnings:3]
     dataLoadItemWithId:
       type: object
       allOf:
@@ -3628,6 +4824,7 @@ components:
                   name: Deckenspots
                   room: 123
                   type: dim
+                  sub_type: ''
                   device: 000004d7
                   channel: 0
                   unused: false
@@ -3636,6 +4833,7 @@ components:
                   name: Esstisch Lampe
                   room: 456
                   type: onoff
+                  sub_type: ''
                   device: 000004d7
                   channel: 1
                   unused: false
@@ -3644,6 +4842,7 @@ components:
                   name: Fenster West
                   room: 789
                   type: motor
+                  sub_type: ''
                   device: '00000679'
                   channel: 0
                   unused: false
@@ -3661,13 +4860,9 @@ components:
       properties:
         state:
           type: object
-          description: >
+          description: |
             [read write] state of the load.
-
-            If we have a dimmable light you can set the brightness between 0%
-            and 100% `{"bri": 0-100}`. If we have a non-dimmable light, the
-            light is ON if the brightness is bigger than 0. The description for
-            the blind is not finally defined:
+            If we have a dimmable light you can set the brightness between 0% and 100% `{"bri": 0-100}`. If we have a non-dimmable light, the light is ON if the brightness is bigger than 0. The description for the blind is not finally defined:
               `{"running": true/false, "pos": 0-100, angle: ???, ...}`
           example:
             bri: 10000
@@ -3720,7 +4915,7 @@ components:
       properties:
         bri:
           type: integer
-          description: '[read write] target-state of the load'
+          description: target-state of the load
           example: 99
       example:
         bri: 10000
@@ -3739,7 +4934,7 @@ components:
                   example: 2
                 target_state:
                   type: object
-                  description: '[read write] target-state of the load'
+                  description: target-state object of the load
                   example:
                     bri: 10000
     dataLoadCtrlItemModReq:
@@ -3771,7 +4966,7 @@ components:
                   example: 2
                 ctrl:
                   type: object
-                  description: '[read write] ctrl object of the load'
+                  description: ctrl object of the load
                   example:
                     button: up
                     event: click
@@ -3782,22 +4977,17 @@ components:
           type: boolean
           description: turn on or off the find me mode
           example: true
-        timeout:
+        time:
           type: integer
-          description: >-
-            [optional, default = 1] time in minutes after the visualization will
-            stop if no button was pressed Default is (1 minutes * number of
-            loads)
+          description: '[optional, default = 5] time in minutes after the visualization will stop if no button was pressed'
           example: 2
         blink_pattern:
           type: string
-          description: >-
-            [optional, default = `triangle`] how to blink (static, blink, ramp,
-            triangle)
+          description: '[optional, default = `ramp`] blink pattern [`ramp`, `ramp_up`, `ramp_down`, `permanent`, `slow`, `fast`]'
           example: ramp
         color:
           type: string
-          description: '[optional, default = `green`] a color can be chosen'
+          description: '[optional, default = `#0000FF`] color of the LED'
           example: '#505050'
     dataLoadFindMeItemRes:
       type: object
@@ -3812,16 +5002,16 @@ components:
       properties:
         time_ms:
           type: integer
-          description: time in millisecondsons. Default is 2000ms
+          description: '[optional, default = `2000`] time in milliseconds `500ms...60000ms`'
           example: 2000
         blink_pattern:
           type: string
-          description: blink pattern (static, blink, ramp, triangle). Default is triangle.
-          example: triangle
+          description: '[optional, default = `ramp`] blink pattern [`ramp`, `ramp_up`, `ramp_down`, `permanent`, `slow`, `fast`]'
+          example: ramp
         color:
           type: string
-          description: 'color of the LED. Default is #0000FF'
-          example: '#0000FF'
+          description: '[optional, default = `#0000FF`] color of the LED'
+          example: '#505050'
     dataLoadPingItemRes:
       type: object
       allOf:
@@ -3830,6 +5020,152 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/dataLoadPingItemModReq'
+    dataSensorItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: |
+            UTF-8 string for the name of a sensor (e.g. kitchen thermostat) defined by the user
+          example: kitchen thermostat
+        type:
+          type: string
+          description: |
+            [read-only] a string describing the main-type of the sensor
+          example: onoff
+        sub_type:
+          type: string
+          description: |
+            [read-only, default = `""`] a string describing the
+            sub-type of the sensor
+          example: ''
+        device:
+          type: string
+          description: |
+            [read-only] reference id to the physical device
+          example: 0000a98f
+        channel:
+          type: integer
+          description: |
+            [read-only] input channel of the physical device
+          example: 0
+        value:
+          type: object
+          additionalProperties:
+            oneOf:
+              - type: string
+              - type: integer
+              - type: boolean
+          description: |
+            [read-only] value of the sensor
+          example: 19.9
+        unit:
+          type: string
+          description: |
+            [read-only] unit of the value
+          example: ℃
+    dataSensorItemWithId:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: '[read-only] unique id'
+              example: 2
+        - $ref: '#/components/schemas/dataSensorItem'
+    dataSensorsItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/dataSensorItemWithId'
+              example:
+                - id: 19
+                  sub_type: ''
+                  name: 0000a98f_0
+                  unit: ℃
+                  value: 19.9
+                  device: 0000a98f
+                  channel: 0
+                  type: temperature
+                - id: 23
+                  sub_type: ''
+                  name: '00000124_2'
+                  unit: lux
+                  value: 39
+                  device: '00000124'
+                  channel: 2
+                  type: illuminance
+                - id: 24
+                  sub_type: ''
+                  name: '00000124_3'
+                  unit: m/s
+                  value: 0
+                  device: '00000124'
+                  channel: 3
+                  type: wind
+                - id: 25
+                  sub_type: ''
+                  name: '00000124_4'
+                  unit: bool
+                  value: 0
+                  device: '00000124'
+                  channel: 4
+                  type: rain
+                - id: 26
+                  sub_type: ''
+                  name: '00000124_5'
+                  unit: bool
+                  value: 0
+                  device: '00000124'
+                  channel: 5
+                  type: hail
+    dataSensorItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/dataSensorItemWithId'
+    dataSensorItemModReq:
+      type: object
+      example:
+        name: North facade
+        icon: wind.png
+        display_in_app: true
+    dataSensorFindMeItemModReq:
+      type: object
+      properties:
+        'on':
+          type: boolean
+          description: turn on or off the find me mode
+          example: true
+        time:
+          type: integer
+          description: '[optional, default = 5] time in minutes after the visualization will stop if no button was pressed'
+          example: 2
+        blink_pattern:
+          type: string
+          description: '[optional, default = `ramp`] blink pattern [`ramp`, `ramp_up`, `ramp_down`, `permanent`, `slow`, `fast`]'
+          example: ramp
+        color:
+          type: string
+          description: '[optional, default = `#806000`] color of the LED'
+          example: '#505050'
+    dataSensorFindMeItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/dataSensorFindMeItemModReq'
     dataAccountPostClaimReq:
       type: object
       description: Account information
@@ -3838,8 +5174,8 @@ components:
       properties:
         user:
           type: string
-          description: user type like `installer`, `admin` or `enduser`
-          example: admin
+          description: user type like `installer`, `apiuser` or `enduser`
+          example: apiuser
         source:
           type: string
           description: source user type where this account will be copied from
@@ -3861,8 +5197,8 @@ components:
       properties:
         user:
           type: string
-          description: user type like `installer`, `admin` or `enduser`
-          example: admin
+          description: user type like `installer`, `apiuser` or `enduser`
+          example: apiuser
         source:
           type: string
           description: source user type where this account was copied from
@@ -3891,9 +5227,7 @@ components:
                   properties:
                     secret:
                       type: string
-                      description: >-
-                        secret to be used in the authorization header of other
-                        services
+                      description: secret to be used in the authorization header of other services
                       example: 61b096f3-9f20-46db-932c-c8bbf7f6011d
                 - $ref: '#/components/schemas/dataAccountItem'
     dataAccountPostCloneReq:
@@ -3930,15 +5264,32 @@ components:
                   properties:
                     secret:
                       type: string
-                      description: >-
-                        secret to be used in the authorization header of other
-                        services
+                      description: secret to be used in the authorization header of other services
                       example: 20e55c5e-3893-40de-a3fa-00fe7c26d2fe
                     source:
                       type: string
                       description: source user type where this account will be copied from
                       example: admin
                 - $ref: '#/components/schemas/dataAccountPostCloneReq'
+    dataAccountGetClonesRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  user:
+                    type: string
+                    description: user type cloned from the existing user
+                    example: admin
+                  secret:
+                    type: string
+                    description: secret cloned from the existing user
+                    example: 5b9b2996-04bd-4762-9c4a-f9b043c34deb
     dataAccountRes:
       type: object
       allOf:
@@ -3964,6 +5315,46 @@ components:
               allOf:
                 - $ref: '#/components/schemas/dataAccountItem'
                 - $ref: '#/components/schemas/dataAccountPatchReq'
+    dataAccountPostConfigResetReq:
+      type: object
+      properties:
+        magnet_binding:
+          type: boolean
+          description: '[optional, default = `false`] Reset all kPlus installation bindings (magnet-bindings)'
+          example: false
+    dataAccountPostSyncReq:
+      type: object
+      properties:
+        secrets:
+          type: array
+          description: list of secrets cloned from the existing user
+          items:
+            type: object
+            description: Secret
+            example: 5b9b2996-04bd-4762-9c4a-f9b043c34deb
+        sync:
+          type: object
+          description: object with user-specific data for synchronization (copy-force)
+          example:
+            rooms:
+              - 10
+              - 11
+            scenes:
+              - 20
+              - 21
+    dataAccountPostClonesSyncReq:
+      type: object
+      properties:
+        sync:
+          type: object
+          description: object with user-specific data for synchronization (copy-force)
+          example:
+            rooms:
+              - 10
+              - 11
+            scenes:
+              - 20
+              - 21
     dataDeviceBasicPropertiesItem:
       type: object
       properties:
@@ -3977,21 +5368,15 @@ components:
           properties:
             fw_id:
               type: string
-              description: >-
-                [read-only] A Firmware project generates an image file (fhx)
-                with a specific FWID.
+              description: '[read-only] A Firmware project generates an image file (fhx) with a specific FWID.'
               example: '0x0100'
             hw_id:
               type: string
-              description: >-
-                [read-only] Hardware ID, actual assembly variant, defined by the
-                HWID Resistor on the PCBA.
+              description: '[read-only] Hardware ID, actual assembly variant, defined by the HWID Resistor on the PCBA.'
               example: '0x1110'
             fw_version:
               type: string
-              description: >-
-                [read-only] firmware Version, consists of Major, Minor, Patch
-                and Build Number.
+              description: '[read-only] firmware Version, consists of Major, Minor, Patch and Build Number.'
               example: '0x00501a30'
             comm_ref:
               type: string
@@ -4011,9 +5396,7 @@ components:
               example: Druckschalter 1K
             serial_nr:
               type: string
-              description: >-
-                [read-only] Unique Serialnumber (stored as a String), (max 31
-                Bytes)
+              description: '[read-only] Unique Serialnumber (stored as a String), (max 31 Bytes)'
               example: 011110_B_000064
         c:
           type: object
@@ -4021,21 +5404,15 @@ components:
           properties:
             fw_id:
               type: string
-              description: >-
-                [read-only] C Firmware project generates an image file (fhx)
-                with a specific FWID.
+              description: '[read-only] C Firmware project generates an image file (fhx) with a specific FWID.'
               example: '0x8402'
             hw_id:
               type: string
-              description: >-
-                [read-only] Hardware ID, actual assembly variant, defined by the
-                HWID Resistor on the PCBA.
+              description: '[read-only] Hardware ID, actual assembly variant, defined by the HWID Resistor on the PCBA.'
               example: '0x8443'
             fw_version:
               type: string
-              description: >-
-                [read-only] firmware Version, consists of Major, Minor, Patch
-                and Build Number.
+              description: '[read-only] firmware Version, consists of Major, Minor, Patch and Build Number.'
               example: '0x00500a28'
             comm_ref:
               type: string
@@ -4043,9 +5420,7 @@ components:
               example: 926-3406.4.S.A.F
             cmd_matrix:
               type: string
-              description: >-
-                [read-only] command matrix selection defines the button
-                functionality of C-Block.
+              description: '[read-only] command matrix selection defines the button functionality of C-Block.'
               example: '0x0002'
             nubes_id:
               type: integer
@@ -4057,9 +5432,7 @@ components:
               example: Druckschalter 1K Sz
             serial_nr:
               type: string
-              description: >-
-                [read-only] unique Serialnumber (stored as a String), (max 31
-                Bytes)
+              description: '[read-only] unique Serialnumber (stored as a String), (max 31 Bytes)'
               example: 018443_B_000050
     dataDeviceBasicPropertiesItemWithId:
       type: object
@@ -4137,7 +5510,7 @@ components:
                 example: 6
               type:
                 type: string
-                description: Output Channel Main-Type [`onoff`, `dim`, `motor`]
+                description: Output Channel Main-Type [`onoff`, `dim`, `motor`, `dali`]
                 example: motor
               sub_type:
                 type: string
@@ -4197,17 +5570,17 @@ components:
           type: string
           description: '[read-only] Output Channel Main-Type `onoff`'
           example: onoff
+        sub_type:
+          type: string
+          description: '[read-only] Output Channel Sub-Type'
+          example: ''
         delayed_off:
           type: boolean
-          description: >-
-            [read/write] Delayed-Relay Mode (Impuls/Minuterie) true or false (on
-            or off)
+          description: '[read/write] Delayed-Relay Mode (Impuls/Minuterie) true or false (on or off)'
           example: false
         delay_ms:
           type: integer
-          description: >-
-            [read/write] Delay Time Value between 100ms-1800000ms (100ms -
-            30min)
+          description: '[read/write] Delay Time Value between 100ms-1800000ms (100ms - 30min)'
           example: 200
     dataDeviceConfigOutputsDim:
       type: object
@@ -4220,31 +5593,29 @@ components:
           type: string
           description: '[read-only] Output Channel Main-Type `dim`'
           example: dim
-        dim_curve:
+        sub_type:
           type: string
-          description: '[read/write] Can be either `lin` or `log`'
-          example: lin
+          description: '[read-only] Output Channel Sub-Type'
+          example: ''
         dim_mode:
           type: string
           description: '[read/write] Can be either `rc` (capacitive) or `rl` (inductive)'
           example: rc
+        dim_curve:
+          type: string
+          description: '[read/write] Can be either `lin` or `log`'
+          example: lin
         memory:
           type: boolean
-          description: >-
-            [read/write] Can be either true (last saved value) or false (100%
-            value)
+          description: '[read/write] Can be either true (last saved value) or false (100% value)'
           example: false
         max_level:
           type: integer
-          description: >-
-            [read/write] Maximum brightness when dimming up 5000 - 10000 (50% -
-            100%)
+          description: '[read/write] Maximum brightness when dimming up 5000 - 10000 (50% - 100%)'
           example: 5000
         min_level:
           type: integer
-          description: >-
-            [read/write] Minimum brightness when dimming down 1 - 4000 (1% -
-            40%)
+          description: '[read/write] Minimum brightness when dimming down 1 - 4000 (1% - 40%)'
           example: 100
         manual_ramp:
           type: integer
@@ -4252,9 +5623,7 @@ components:
           example: 4000
         scene_fade_ramp:
           type: integer
-          description: >-
-            [read/write] % per second when load is set to a certain brightness
-            directly (e.g. by a moment)
+          description: '[read/write] % per second when load is set to a certain brightness directly (e.g. by a moment)'
           example: 0
         on_ramp:
           type: integer
@@ -4266,15 +5635,11 @@ components:
           example: 200
         onoff_ramp:
           type: integer
-          description: >-
-            [read/write] Dim Ramp for switching light on&off 100..3000  (0,1 -
-            3s)
+          description: '[read/write] Dim Ramp for switching light on&off 100..3000  (0,1 - 3s)'
           example: 200
         turn_on_level:
           type: integer
-          description: >-
-            [read/write] When switching light on, the outputs ramps to this
-            value (%). 0 activates the Memory Mode
+          description: '[read/write] When switching light on, the outputs ramps to this value (%). 0 activates the Memory Mode'
           example: 10000
     dataDeviceConfigOutputsMotor:
       type: object
@@ -4287,22 +5652,81 @@ components:
           type: string
           description: '[read-only] Output Channel Main-Type `motor`'
           example: motor
+        sub_type:
+          type: string
+          description: '[read-only] Output Channel Sub-Type'
+          example: ''
         tilt_ms:
           type: integer
           description: '[read/write] Duration of one tilt-step command in `ms`'
           example: 100
         tiltable:
           type: boolean
-          description: >-
-            [read/write] true = Blind with tiltable slats, false = Shade only
-            level and no tilt
+          description: '[read/write] true = Blind with tiltable slats, false = Shade only level and no tilt'
           example: true
         relay_mode:
           type: boolean
-          description: >-
-            [read/write] No current measurement (used if outputs are connected
-            to relays)
+          description: '[read/write] No current measurement (used if outputs are connected to relays)'
           example: false
+    dataDeviceConfigOutputsDali:
+      type: object
+      properties:
+        load:
+          type: integer
+          description: '[read-only] Reference to load object'
+          example: 401
+        type:
+          type: string
+          description: '[read-only] Output Channel Main-Type `dali`'
+          example: dim
+        sub_type:
+          type: string
+          description: '[read-only] Output Channel Sub-Type'
+          example: rgb
+        mode:
+          type: string
+          description: '[read/write,  default = ""] Possible values ["", "rgb", "tw"]'
+          example: rgb
+        dim_curve:
+          type: string
+          description: '[read/write] Can be either `lin` or `log`'
+          example: lin
+        memory:
+          type: boolean
+          description: '[read/write] Can be either true (last saved value) or false (100% value)'
+          example: false
+        max_level:
+          type: integer
+          description: '[read/write] Maximum brightness when dimming up 5000 - 10000 (50% - 100%)'
+          example: 5000
+        min_level:
+          type: integer
+          description: '[read/write] Minimum brightness when dimming down 1 - 4000 (1% - 40%)'
+          example: 100
+        manual_ramp:
+          type: integer
+          description: '[read/write] % per second when dimming manually'
+          example: 4000
+        scene_fade_ramp:
+          type: integer
+          description: '[read/write] % per second when load is set to a certain brightness directly (e.g. by a moment)'
+          example: 0
+        on_ramp:
+          type: integer
+          description: '[read/write] Dim Ramp for switching light on 100..3000  (0,1 - 3s)'
+          example: 200
+        off_ramp:
+          type: integer
+          description: '[read/write] Dim Ramp for switching light off 100..3000  (0,1 - 3s)'
+          example: 200
+        onoff_ramp:
+          type: integer
+          description: '[read/write] Dim Ramp for switching light on&off 100..3000  (0,1 - 3s)'
+          example: 200
+        turn_on_level:
+          type: integer
+          description: '[read/write] When switching light on, the outputs ramps to this value (%). 0 activates the Memory Mode'
+          example: 10000
     dataDeviceConfigOutputs:
       type: object
       description: output object (object is input type specific)
@@ -4310,19 +5734,18 @@ components:
         - $ref: '#/components/schemas/dataDeviceConfigOutputsOnOff'
         - $ref: '#/components/schemas/dataDeviceConfigOutputsDim'
         - $ref: '#/components/schemas/dataDeviceConfigOutputsMotor'
+        - $ref: '#/components/schemas/dataDeviceConfigOutputsDali'
     dataDeviceConfigDesign:
       type: object
       properties:
         color:
           type: integer
-          description: >-
-            [read/write] Feller color-code
-            https://mam.schneider-electric.com/public/69.HKFARBLZ-D.1401.pdf
+          description: '[read/write] Feller [color-code](https://mam.schneider-electric.com/public/69.HKFARBLZ-D.1401.pdf)'
           example: 0
         name:
           type: string
-          description: '[read/write] Feller design-name `endizio_due` or `standard_due`'
-          example: endizio_due
+          description: '[read/write] Feller design-name `edizio_due` or `standard_due`'
+          example: edizio_due
     dataDeviceConfigItem:
       type: object
       properties:
@@ -4342,10 +5765,12 @@ components:
           example:
             - load: 301
               type: onoff
+              sub_type: ''
               delayed_off: false
               delay_ms: 200
             - load: 302
               type: onoff
+              sub_type: ''
               delayed_off: false
               delay_ms: 200
         design:
@@ -4371,7 +5796,47 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/dataDeviceConfigItemWithId'
-    dataDeviceInputConfigItemRes:
+    dataDeviceConfigInputsAndDesignItem:
+      type: object
+      properties:
+        inputs:
+          type: array
+          description: list of input objects (object is input type specific)
+          items:
+            type: object
+            description: input object (object is input type specific)
+            allOf:
+              - $ref: '#/components/schemas/dataDeviceConfigInputs'
+        outputs:
+          type: array
+          description: list of empty output objects
+          items:
+            maxItems: 0
+          example: []
+        design:
+          type: object
+          description: '[read-only] D-Block information'
+          allOf:
+            - $ref: '#/components/schemas/dataDeviceConfigDesign'
+    dataDeviceConfigInputsAndDesignItemWithId:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: '[read-only] unique id of a device-config'
+              example: 4294976294
+        - $ref: '#/components/schemas/dataDeviceConfigInputsAndDesignItem'
+    dataDeviceConfigInputsAndDesignItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/dataDeviceConfigInputsAndDesignItemWithId'
+    dataDeviceConfigInputsItemRes:
       type: object
       allOf:
         - $ref: '#/components/schemas/ApiStatusSuccess'
@@ -4385,7 +5850,7 @@ components:
         color:
           type: string
           example: '#111111'
-    dataDeviceOutputConfigItemRes:
+    dataDeviceConfigOutputsItemRes:
       type: object
       allOf:
         - $ref: '#/components/schemas/ApiStatusSuccess'
@@ -4420,6 +5885,41 @@ components:
                   type: string
                   description: '[read-only] `up down`, `toggle`, `scene`'
                   example: scene
+    dataDeviceInfoItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                max_last_seen:
+                  type: string
+                  description: '[read-only] maximal size of last_seen in device object'
+                  example: 780
+                count:
+                  type: integer
+                  description: '[read-only] number of connected devices'
+                  example: 8
+                C_FWID:
+                  type: object
+                  description: '[read-only] overview of all c-blocks'
+                  example:
+                    '8402':
+                      count: 5
+                      fw_versions:
+                        - '10102906'
+                        - '10106001'
+                A_FWID:
+                  type: object
+                  description: '[read-only] overview of all a-blocks'
+                  example:
+                    '0100':
+                      count: 3
+                      fw_versions:
+                        - 20002b05
+                        - '20100001'
     dataDevicePingItemRes:
       type: object
       allOf:
@@ -4453,9 +5953,7 @@ components:
               example: Sun,Wed
             at:
               type: string
-              description: >-
-                daytime as format `HH:MM` or `sr:min`/`ss:min`, see Astro Time
-                Format
+              description: daytime as format `HH:MM` or `sr:min`/`ss:min`, see Astro Time Format
               example: '23:59'
     dataTimerItemWithId:
       type: object
@@ -4557,10 +6055,18 @@ components:
     dataSmartButtonItem:
       type: object
       properties:
+        device:
+          type: string
+          description: '[read-only] reference to the real device'
+          example: 00006c0b
+        channel:
+          type: integer
+          description: '[read-only] input channel of the device'
+          example: 1
         job:
           type: integer
-          description: id of a job
-          example: 6
+          description: '[optional] id of the Job that runs when pressed'
+          example: 14
     dataSmartButtonItemWithId:
       type: object
       allOf:
@@ -4568,7 +6074,7 @@ components:
           properties:
             id:
               type: integer
-              description: '[read-only] unique id'
+              description: '[read-only] id of the SmartButton'
               example: 2
         - $ref: '#/components/schemas/dataSmartButtonItem'
     dataSmartButtonsItemRes:
@@ -4581,6 +6087,21 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/dataSmartButtonItemWithId'
+    dataSmartButtonsItemReq:
+      type: object
+      properties:
+        device:
+          type: string
+          description: id of the Device
+          example: 00006c0b
+        channel:
+          type: integer
+          description: index of the device input
+          example: 1
+        job:
+          type: integer
+          description: '[optional] id of the Job'
+          example: 14
     dataSmartButtonItemRes:
       type: object
       allOf:
@@ -4601,9 +6122,7 @@ components:
       properties:
         'on':
           type: boolean
-          description: >-
-            true to prepare programming mode, or false to abort it (default
-            false)
+          description: true to prepare programming mode, or false to abort it (default false)
           example: true
         timeout:
           type: integer
@@ -4611,15 +6130,11 @@ components:
           example: 60
         button_type:
           type: string
-          description: >-
-            [optional, default = `scene`] type of buttons to program like
-            `groupctrl`
+          description: '[optional, default = `scene`] type of buttons to program like `groupctrl`'
           example: groupctrl
         owner:
           type: string
-          description: >-
-            [optional, default = `all`] owner of buttons `all` or `user` (user
-            means only buttons for App user)
+          description: '[optional, default = `user`] owner of buttons `all` or `user` (user means only buttons for App user)'
           example: user
     dataSmartButtonProgramItemRes:
       type: object
@@ -4634,8 +6149,20 @@ components:
       properties:
         button:
           type: integer
-          description: id of the button that was pressed
+          description: DEPRECATED - please use attribute `id` instead!
           example: 9
+        id:
+          type: integer
+          description: '[read-only] id of the SmartButton that was pressed'
+          example: 9
+        device:
+          type: string
+          description: '[read-only] reference to the real device'
+          example: 00006c0b
+        channel:
+          type: integer
+          description: '[read-only] input channel of the device'
+          example: 2
     dataSmartButtonNotifyItemRes:
       type: object
       allOf:
@@ -4644,7 +6171,7 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/dataSmartButtonNotifyItem'
-    dataJobTargetStateItem:
+    dataJobTargetStateLoadItem:
       type: object
       properties:
         load:
@@ -4662,7 +6189,32 @@ components:
       example:
         load: 9
         bri: 7500
-    dataJobFlagValuesItem:
+    dataJobTargetStateHVACGroupItem:
+      type: object
+      properties:
+        hvacgroup:
+          type: integer
+          description: id of the HVAC-Group
+          example: 79
+        target_temperature:
+          type: integer
+          description: '[optional] target temperature'
+          example: 23.5
+        boost_temperature:
+          type: integer
+          description: '[optional] boost temperature'
+          example: 5
+      example:
+        hvacgroup: 79
+        target_temperature: 22.5
+    dataJobTargetStatesItem:
+      type: array
+      description: list of objects each with a `load` or `hvacgroup` and state properties
+      items:
+        anyOf:
+          - $ref: '#/components/schemas/dataJobTargetStateLoadItem'
+          - $ref: '#/components/schemas/dataJobTargetStateHVACGroupItem'
+    dataJobFlagValueItem:
       type: object
       properties:
         flag:
@@ -4673,6 +6225,11 @@ components:
           type: boolean
           description: The `value` for the Flag
           example: true
+    dataJobFlagValuesItem:
+      type: array
+      description: list of objects each with a `flag` and a `value`
+      items:
+        $ref: '#/components/schemas/dataJobFlagValueItem'
     dataJobButtonCtrlItem:
       type: object
       properties:
@@ -4705,15 +6262,9 @@ components:
       type: object
       properties:
         target_states:
-          type: array
-          description: list of objects each with a `load` and state properties
-          items:
-            $ref: '#/components/schemas/dataJobTargetStateItem'
+          $ref: '#/components/schemas/dataJobTargetStatesItem'
         flag_values:
-          type: array
-          description: list of objects each with a `flag` and a `value`
-          items:
-            $ref: '#/components/schemas/dataJobFlagValuesItem'
+          $ref: '#/components/schemas/dataJobFlagValuesItem'
         button_ctrl:
           $ref: '#/components/schemas/dataJobButtonCtrlItem'
         scripts:
@@ -4722,15 +6273,6 @@ components:
           type: integer
           description: '[optional] id of a System Flag or Condition that may block this job'
           example: 10
-        triggers:
-          type: array
-          description: >-
-            [app-only] list of ids of scenes, groupctrls and schedulers using
-            this job
-          items:
-            type: integer
-            description: id scene, groupctrl and schedulers
-            example: 5
     dataJobItemWithId:
       type: object
       allOf:
@@ -4757,7 +6299,7 @@ components:
         flag_values:
           $ref: '#/components/schemas/dataJobFlagValuesItem'
         target_states:
-          $ref: '#/components/schemas/dataJobTargetStateItem'
+          $ref: '#/components/schemas/dataJobTargetStatesItem'
         button_ctrl:
           $ref: '#/components/schemas/dataJobButtonCtrlItem'
         scripts:
@@ -4774,7 +6316,36 @@ components:
       type: object
       properties:
         target_states:
-          $ref: '#/components/schemas/dataJobTargetStateItem'
+          $ref: '#/components/schemas/dataJobTargetStatesItem'
+    dataJobLoadsItemReq:
+      type: object
+      properties:
+        loads:
+          type: array
+          description: list of load ids
+          items:
+            type: integer
+            description: unique id of a load
+            example: 69
+          example:
+            - 69
+            - 101
+    dataJobLoadsItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: array
+              description: list of load ids
+              items:
+                type: integer
+                description: unique id of a load
+                example: 69
+              example:
+                - 69
+                - 101
     dataGroupCtrlItem:
       type: object
       properties:
@@ -4867,6 +6438,454 @@ components:
         - $ref: '#/components/schemas/dataSceneItem'
       example:
         name: Watch TV
+    dataHVACGroupItem:
+      type: object
+      properties:
+        loads:
+          type: array
+          description: list of load ids
+          items:
+            type: integer
+            description: unique id of a load
+            example: 42
+          example:
+            - 42
+            - 24
+            - 56
+    dataHVACGroupItemWithId:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: '[read-only] id of the HVAC-Group'
+              example: 6
+        - $ref: '#/components/schemas/dataHVACGroupItem'
+    dataHVACGroupsItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/dataHVACGroupItemWithId'
+    dataHVACGroupItemReq:
+      allOf:
+        - $ref: '#/components/schemas/dataHVACGroupItem'
+      example:
+        loads:
+          - 42
+          - 24
+          - 56
+    dataHVACGroupItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/dataHVACGroupItemWithId'
+    dataHVACGroupStateItem:
+      type: object
+      properties:
+        state:
+          type: object
+          description: state object
+          properties:
+            ambient_temperature:
+              type: number
+              description: ''
+              example: 21.5
+            target_temperature:
+              type: number
+              description: ''
+              example: 25.5
+            unit:
+              type: string
+              description: ''
+              example: C
+            flags:
+              type: object
+              description: ''
+              properties:
+                remote_controlled:
+                  type: number
+                  description: ''
+                  example: 0
+                sensor_error:
+                  type: number
+                  description: ''
+                  example: 0
+                valve_error:
+                  type: number
+                  description: ''
+                  example: 0
+                noise:
+                  type: number
+                  description: ''
+                  example: 0
+                output_on:
+                  type: number
+                  description: ''
+                  example: 0
+                cooling:
+                  type: number
+                  description: ''
+                  example: 0
+    dataHVACGroupStateItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/dataHVACGroupItemWithId'
+                - $ref: '#/components/schemas/dataHVACGroupStateItem'
+    dataHVACGroupPatchItemReq:
+      allOf:
+        - $ref: '#/components/schemas/dataHVACGroupItem'
+      example:
+        loads:
+          - 80
+          - 81
+    dataHVACGroupBindStateItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                running:
+                  type: boolean
+                  description: is bind-service running or not
+                  example: false
+    dataHVACGroupBindStateItemReq:
+      type: object
+      properties:
+        running:
+          type: boolean
+          description: stop binding with value false
+          example: false
+    dataHVACGroupBindItem:
+      type: object
+      properties:
+        thermostat_ref:
+          type: object
+          description: thermostat reference (only for internal use)
+          properties:
+            address:
+              type: string
+              description: ''
+              example: '0x00345670'
+            input_type:
+              type: integer
+              description: ''
+              example: 17
+            input_channel:
+              type: integer
+              description: ''
+              example: 0
+    dataHVACGroupBindItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/dataHVACGroupItemWithId'
+                - $ref: '#/components/schemas/dataHVACGroupBindItem'
+    dataHVACGroupTargetStateItem:
+      type: object
+      properties:
+        target_temperature:
+          type: number
+          description: target temperature
+          example: 25.5
+        boost_temperature:
+          type: number
+          description: '[optional] boost temperature'
+          example: 0
+    dataHVACGroupTargetStateItemReq:
+      allOf:
+        - $ref: '#/components/schemas/dataHVACGroupTargetStateItem'
+      example:
+        target_temperature: 25.5
+    dataHVACGroupTargetStateItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/dataHVACGroupItemWithId'
+                - type: object
+                  properties:
+                    target_state:
+                      type: object
+                      description: target_state object
+                      allOf:
+                        - $ref: '#/components/schemas/dataHVACGroupTargetStateItem'
+    dataHVACGroupStatesItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: '[read-only] id of the HVAC-Group'
+                        example: 6
+                  - $ref: '#/components/schemas/dataHVACGroupStateItem'
+    dataHVACGroupConfigItem:
+      type: object
+      properties:
+        keep_alive:
+          type: integer
+          description: '[read-only] live-time of HVAC-Group-Configuration (in second)'
+          example: 600
+        modified:
+          type: array
+          description: '[read-only] modified attributes (only for internal use)'
+          items:
+            type: string
+          example: []
+        cooling:
+          type: boolean
+          description: '[read/write, default = false] select mode false=heating true=cooling'
+          example: false
+        pi:
+          type: boolean
+          description: '[read/write, default = true] select regulator true=pi false=tow-point'
+          example: true
+        offset_temperature:
+          type: number
+          description: '[optional (only with thermostat binding), default = 0.0] offset for sensor temperature (in degrees Celsius)'
+          example: 0
+        min_temperature:
+          type: number
+          description: '[optional (only with thermostat binding), default = 15.0] minimum by UI selectable temperature (in degrees Celsius)'
+          example: 15
+        max_temperature:
+          type: number
+          description: '[optional (only with thermostat binding), default = 25.0] maximum by UI selectable temperature (in degrees Celsius)'
+          example: 25
+    dataHVACGroupConfigItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              allOf:
+                - type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: '[read-only] id of the HVAC-Group-Configuration'
+                      example: 420
+                - $ref: '#/components/schemas/dataHVACGroupConfigItem'
+    dataHVACGroupConfigPatchItemReq:
+      allOf:
+        - $ref: '#/components/schemas/dataHVACGroupConfigItem'
+      example:
+        min_temperature: 10.5
+    dataWESTGroupItem:
+      type: object
+      properties:
+        loads:
+          type: array
+          description: list of load ids
+          items:
+            type: integer
+            description: unique id of a load
+            example: 42
+          example:
+            - 42
+            - 24
+            - 56
+        wind:
+          type: object
+          properties:
+            action:
+              type: string
+              description: off, up, down, stay and lock, up and lock, down and lock, down and tilt and lock
+              example: up
+            threshold:
+              type: number
+              description: threshold in m/s
+              example: 5.5
+            unit:
+              type: string
+              description: unit info
+              example: m/s
+        temperature:
+          type: object
+          properties:
+            action:
+              type: string
+              description: off, up, down, stay and lock, up and lock, down and lock, down and tilt and lock
+              example: 'off'
+            threshold:
+              type: number
+              description: threshold in Celsius
+              example: 1.5
+            unit:
+              type: string
+              description: unit info
+              example: °C
+        rain:
+          type: object
+          properties:
+            action:
+              type: string
+              description: off, up, down, stay and lock, up and lock, down and lock, down and tilt and lock
+              example: 'off'
+            unit:
+              type: string
+              description: unit info
+              example: bool
+        hail:
+          type: object
+          properties:
+            action:
+              type: string
+              description: off, up, down, stay and lock, up and lock, down and lock, down and tilt and lock
+              example: up and lock
+            unit:
+              type: string
+              description: unit info
+              example: bool
+    dataWESTGroupItemWithId:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: '[read-only] id of the WEST-Group'
+              example: 6
+        - $ref: '#/components/schemas/dataWESTGroupItem'
+    dataWESTGroupsItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/dataWESTGroupItemWithId'
+    dataWESTGroupItemReq:
+      allOf:
+        - $ref: '#/components/schemas/dataWESTGroupItem'
+      example:
+        loads:
+          - 42
+          - 24
+          - 56
+    dataWESTGroupItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/dataWESTGroupItemWithId'
+    dataWESTGroupPatchItemReq:
+      allOf:
+        - $ref: '#/components/schemas/dataWESTGroupItem'
+      example:
+        loads:
+          - 80
+          - 81
+    dataWESTGroupBindItem:
+      type: object
+      properties:
+        weather_station_ref:
+          type: object
+          description: internal reference to weather-station (do not use)
+          properties:
+            address:
+              type: string
+              description: ''
+              example: '0x00000124'
+    dataWESTGroupBindItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/dataWESTGroupItemWithId'
+                - $ref: '#/components/schemas/dataWESTGroupBindItem'
+    dataWESTGroupsTestItem:
+      type: object
+      properties:
+        keep_alive:
+          type: number
+          description: keep alive time in seconds
+          example: 600
+        wind:
+          type: number
+          description: '[optional] wind-speed in m/s'
+          example: 20
+        temperature:
+          type: number
+          description: '[optional] temperature in Celsius'
+          example: 25
+        rain:
+          type: boolean
+          description: '[optional] rain true/false'
+          example: false
+        hail:
+          type: boolean
+          description: '[optional] hail true/false'
+          example: false
+        weather_station_ref:
+          type: array
+          description: internal reference to weather-stations
+          items:
+            type: integer
+            description: internal reference to a weather-station
+            example: 113385
+    dataWESTGroupsTestItemReq:
+      type: object
+      properties:
+        wind:
+          type: number
+          description: '[optional] wind-speed in m/s'
+          example: 20
+        temperature:
+          type: number
+          description: '[optional] temperature in Celsius'
+          example: 25
+        rain:
+          type: boolean
+          description: '[optional] rain true/false'
+          example: false
+        hail:
+          type: boolean
+          description: '[optional] hail true/false'
+          example: false
     dataSystemHealthItemRes:
       type: object
       allOf:
@@ -4875,33 +6894,66 @@ components:
           properties:
             data:
               type: object
-              description: ''
               properties:
+                reboot_cause:
+                  type: string
+                  description: cause of last reboot
+                  example: HARD_RESET
+                uptime:
+                  type: integer
+                  description: time since last reboot
+                  example: 638
+                mem_size:
+                  type: integer
+                  description: total heap memory in bytes
+                  example: 291712
                 mem_free:
                   type: integer
                   description: free heap memory in bytes
-                  example: 89168
+                  example: 80688
+                flash_size:
+                  type: integer
+                  description: total space of /flash filesystem in bytes
+                  example: 26210304
+                flash_free:
+                  type: integer
+                  description: free space of /flash filesystem in bytes
+                  example: 22396928
+                sockets:
+                  type: integer
+                  description: number of open socket connections
+                  example: 3
                 wlan_rssi:
                   type: integer
                   description: WLAN RSSI between 0 dBm (best) and -99 dBm (worst)
-                  example: -75
+                  example: -65
                 wlan_resets:
                   type: integer
-                  description: >-
-                    number of resets in last hour caused by WLAN adapter
-                    problems
+                  description: number of WLAN adapter resets in last hour
                   example: 0
-    dataGenericNullItemRes:
+                max_tasks:
+                  type: integer
+                  description: max number of tasks during last 60 sec
+                  example: 25
+    dataSystemRebootPostItem:
+      type: object
+      properties:
+        delay:
+          type: integer
+          description: delay interval in seconds `0 ... 60` before reboot
+          example: 20
+    dataSystemRebootPostItemReq:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/dataSystemRebootPostItem'
+    dataSystemRebootPostItemRes:
       type: object
       allOf:
         - $ref: '#/components/schemas/ApiStatusSuccess'
         - type: object
           properties:
             data:
-              type: object
-              description: no response data on successful action
-              nullable: true
-              example: null
+              $ref: '#/components/schemas/dataSystemRebootPostItem'
     dataSystemFlagItem:
       type: object
       properties:
@@ -5012,6 +7064,99 @@ components:
         - $ref: '#/components/schemas/dataSystemPostConditionItemReq'
         - example:
             name: Anwesend
+    dataScriptsItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the script-file
+          example: hello_world.py
+        size:
+          type: number
+          description: file size in bytes
+          example: 740
+    dataScriptsItemsRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/dataScriptsItem'
+    dataScriptsItemReq:
+      type: string
+      format: binary
+      description: file content as octet-stream
+    dataScriptsItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/dataScriptsItem'
+    dataScriptsStartItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              description: Empty object or `null`
+              nullable: true
+              example: null
+    dataScriptsStopItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: object
+              description: Empty object or `null`
+              nullable: true
+              example: null
+    dataScriptsCronItemsRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                type: string
+                description: cron-jobs with cron-notation string
+                example: '*/3 * * * * /scripts.test2_script.onCronEvent'
+              example:
+                - '* * * * * /scripts.test1_script.onCronEvent'
+                - '*/3 * * * * /scripts.test2_script.onCronEvent'
+                - '* * * * * /scripts.test3_script.onCronEvent'
+    dataScriptsCronItem:
+      type: object
+      properties:
+        cron_job:
+          type: string
+          description: cron-job entry
+          example: '* * * * * /scripts.test1_script.onCronEvent'
+    dataScriptsCronItemRes:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApiStatusSuccess'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/dataScriptsCronItem'
+    dataScriptsCronItemReq:
+      type: object
+      properties:
+        entry:
+          type: string
+          description: cron-job notation string
+          example: '* * * * *'
   responses:
     ApiStatusErrorRes:
       description: Unexpected error
