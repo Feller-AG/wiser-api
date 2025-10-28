@@ -36,6 +36,11 @@ Check them out and get inspired! 🚀🔧
 
 - [rolfscherer/wiser-matter-bridge (GitHub) 🔗](https://github.com/rolfscherer/wiser-matter-bridge)
 
+### plan44 matter+DS gateway
+
+- [plan44/vdcd automation daemon (github) 🔗](https://github.com/plan44/vdcd)
+- [plan44/p44mbrd matter bridge (github) 🔗](https://github.com/plan44/p44mbrd)
+
 ### Python
 
 - [Syonix/aioWiserByFeller (GitHub) 🔗](https://github.com/Syonix/aioWiserByFeller)
