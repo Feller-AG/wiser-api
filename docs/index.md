@@ -2,12 +2,12 @@
 
 ## V6.0.X
 
-### V6.0.33 (latest)
+### V6.0.41 (latest)
 
 **Links:**
 
-- Rendering [wiser-api](https://feller-ag.github.io/wiser-api/6.0.33/apiui.html) with Swagger UI
-- Rendering [wiser-api](https://feller-ag.github.io/wiser-api/6.0.33/apidoc.html) with Redoc
+- Rendering [wiser-api](https://feller-ag.github.io/wiser-api/6.0.41/apiui.html) with Swagger UI
+- Rendering [wiser-api](https://feller-ag.github.io/wiser-api/6.0.41/apidoc.html) with Redoc
 
 ## V5.1.X
 
