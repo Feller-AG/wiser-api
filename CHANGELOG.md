@@ -1,28 +1,28 @@
+# Changelog
 
-
-# 6.0.41 (2026-01-23) 
+## 6.0.41 (2026-01-23)
 
 - Release-Name: *A Sky Full of Stars* 🌠 🚀 ✨
 
-## Features and Enhancements
+### Features and Enhancements
 
 - Introduced new REST API services at the `/api/buttons` endpoint to expose buttons within the Feller-System (managed buttons) 🔘✨
 
 - Added additional WebSocket events that are triggered when managed buttons are pressed 🔔🖱️
 
 - Extended the device configuration endpoint `/api/devices/config/<id>/inputs` with new properties: `foreground_color` and `background_color` 🌈🧩
-  ⚠️ Please note: updating devices is required for these changes to take effect 🔄 (Minimum required device version: **2.8.2-0**)
+  > ⚠️ Please note: Updating devices is required for these changes to take effect 🔄  
+    (Minimum required device version: **2.8.2-0**)
 
-- Enhanced the scripting framework with webhook support 🌐🔗
-  You can now create custom scripts that trigger actions within the Feller-System based on incoming webhooks ⚙️✨
+- Enhanced the scripting framework with webhook support 🌐🔗  
+  You can now create custom scripts that trigger actions within the Feller-System based on incoming webhooks ⚙️✨  
   📄 A sample script is available on the scripts page for reference 👀
 
-
-# 6.0.40 (2025-12-23)
+## 6.0.40 (2025-12-23)
 
 - Release-Name: *Let It Be* 🎄 🕊️ ✨
 
-## Features and Enhancements
+### Features and Enhancements
 
 - REST API service `/api/devices/<id>/refresh_properties` to read all device registers (e.g. `comm_ref`), as reported in issues 🐞 ([#43](https://github.com/Feller-AG/wiser-api/issues/43), [#52](https://github.com/Feller-AG/wiser-api/issues/52))
 
