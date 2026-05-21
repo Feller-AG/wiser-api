@@ -2,6 +2,26 @@
 
 
 
+## 6.0.43 (2026-05-06)
+
+- Release-Name: Freestyler 🎲 🔥 ✨
+
+### Features and Enhancements
+
+- Extended `api/hvacgroup/<id>/config` with new HVAC configuration options, laying the groundwork for next-generation thermostat support 🌡️✨
+
+- Added endpoint `api/database/hash` to allow clients to verify the integrity of the µGateway database without downloading the full database 🗄️🔑
+
+- Added header fields `Content-Signature` & `Content-Hash` to endpoint `api/database`, allowing clients to verify the authenticity and integrity of the database response 🔒
+
+- Improved HVAC page with additional configuration options, ready for the next generation of thermostat devices 🌡️✨
+
+### Bug Fixes
+
+- Fixed `findme` service across `api/loads/findme`, `api/sensors/findme` and `api/buttons/findme` to always correctly apply default colors, ensuring reliable visual device identification 🎨🔍
+
+
+
 ## 6.0.42 (2026-03-18)
 
 - Release-Name: Right Here, Right Now 🔥 ⏱️ 🚀
