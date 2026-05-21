@@ -18,8 +18,7 @@
 
 ### Bug Fixes
 
-- Fixed `findme` service across `api/loads/findme`, `api/sensors/findme` and `api/buttons/findme` to always correctly apply default colors, ensuring reliable visual device identification 🎨🔍
-
+- Fixed `findme` service across `api/loads/findme`, `api/sensors/findme` and `api/buttons/findme` to always correctly apply default colors, ensuring loads, sensors and buttons blink as expected when locating them in an installation 🔍💡
 
 
 ## 6.0.42 (2026-03-18)
