@@ -35,7 +35,6 @@ After activation of the latest firmware-version, its possible to select release-
 
 ![Select-Release-Channel](./docs/images/ugw-updater-select-release-channel.png)
 
-
 ## 📦 Versions of the µGW Rest API
 
 - **Version 5.x**: 📟 This version is designed for the µGWv1.

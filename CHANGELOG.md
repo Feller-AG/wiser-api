@@ -1,7 +1,5 @@
 # Changelog
 
-
-
 ## 6.0.43 (2026-05-06)
 
 - Release-Name: Freestyler 🎲 🔥 ✨
@@ -20,7 +18,6 @@
 
 - Fixed `findme` service across `api/loads/findme`, `api/sensors/findme` and `api/buttons/findme` to always correctly apply default colors, ensuring loads, sensors and buttons blink as expected when locating them in an installation 🔍💡
 
-
 ## 6.0.42 (2026-03-18)
 
 - Release-Name: Right Here, Right Now 🔥 ⏱️ 🚀
@@ -33,7 +30,7 @@
   Allows independent control of up to four DALI groups ✨
   > ⚠️ Minimum required device firmware version: 2.8.2-0
 
-- Added soft_off option to all /api/devices/<id>/config/outputs endpoints for DALI devices 🌙✨
+- Added soft_off option to all `/api/devices/<id>/config/outputs` endpoints for DALI devices 🌙✨
 
 - Improved file system performance ⚡💾
 
@@ -41,9 +38,7 @@
 
 - Improved startup reliability and device synchronization to prevent missing device information (e.g. `comm_name`, `comm_ref`, `serial_nr`) during initialization 🚀🧩
 
-- Fixed DELETE /api/buttons/<id> to ensure all LEDs are turned off when a button is removed 🔘❌
-
-
+- Fixed DELETE `/api/buttons/<id>` to ensure all LEDs are turned off when a button is removed 🔘❌
 
 ## 6.0.41 (2026-01-23)
 
@@ -62,8 +57,6 @@
 - Enhanced the scripting framework with webhook support 🌐🔗  
   You can now create custom scripts that trigger actions within the Feller-System based on incoming webhooks ⚙️✨  
   📄 A sample script is available on the scripts page for reference 👀
-
-
 
 ## 6.0.40 (2025-12-23)
 
