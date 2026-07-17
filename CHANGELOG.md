@@ -1,5 +1,26 @@
 # Changelog
 
+
+## 6.0.44 (2026-07-01)
+
+- Release-Name: *Superstylin* ✨ 🕶️ 🎛️
+
+### Features and Enhancements
+
+- Extended `api/hvac/config` with new configuration options for the touch display thermostat 🌡️🎛️
+
+- Extended `api/scripts` with trigger information, making it easier for clients to identify how and why a script was started, such as by a cron job, a sensor event, or a button action 🔍⚙️
+
+### Bug Fixes
+
+- Fixed the default `findme` button colors in `api/buttons/findme`, so different button types now blink with distinct colors and can be identified more easily 🔍💡
+
+- Fixed the mDNS responder to properly re-initialize the mDNS service after the µGateway receives a new IP address, ensuring the device remains discoverable after network changes such as WLAN reconnects 📡🔧
+
+- Improved overall system performance when the µGateway has no network connection, reducing delays and improving responsiveness in offline or temporarily disconnected installations ⚡🌐
+
+
+
 ## 6.0.43 (2026-05-06)
 
 - Release-Name: Freestyler 🎲 🔥 ✨
@@ -17,6 +38,8 @@
 ### Bug Fixes
 
 - Fixed `findme` service across `api/loads/findme`, `api/sensors/findme` and `api/buttons/findme` to always correctly apply default colors, ensuring loads, sensors and buttons blink as expected when locating them in an installation 🔍💡
+
+
 
 ## 6.0.42 (2026-03-18)
 
@@ -40,6 +63,8 @@
 
 - Fixed DELETE `/api/buttons/<id>` to ensure all LEDs are turned off when a button is removed 🔘❌
 
+
+
 ## 6.0.41 (2026-01-23)
 
 - Release-Name: *A Sky Full of Stars* 🌠 🚀 ✨
@@ -57,6 +82,8 @@
 - Enhanced the scripting framework with webhook support 🌐🔗  
   You can now create custom scripts that trigger actions within the Feller-System based on incoming webhooks ⚙️✨  
   📄 A sample script is available on the scripts page for reference 👀
+
+
 
 ## 6.0.40 (2025-12-23)
 
