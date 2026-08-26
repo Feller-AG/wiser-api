@@ -1,9 +1,23 @@
 # Changelog
 
 
+## Release 6.0.45 (2026-7-17)
+
+- Release-Name:  **Connected** *(Stereo MC's)* 🔗 ☁️ ⚡
+
+### Features and Enhancements
+
+- Enhanced overall system stability
+
+### Bug Fixes
+
+- improved chunked response handling with fixed unicode support and better error handling
+
+
+
 ## 6.0.44 (2026-07-01)
 
-- Release-Name: *Superstylin* ✨ 🕶️ 🎛️
+- Release-Name: **Superstylin** *(Groove Armada)* ✨ 🕶️ 🎛️
 
 ### Features and Enhancements
 
@@ -23,7 +37,7 @@
 
 ## 6.0.43 (2026-05-06)
 
-- Release-Name: Freestyler 🎲 🔥 ✨
+- Release-Name: **Freestyler** *(Bomfunk MC's)* 🎲 🔥 ✨
 
 ### Features and Enhancements
 
@@ -43,7 +57,7 @@
 
 ## 6.0.42 (2026-03-18)
 
-- Release-Name: Right Here, Right Now 🔥 ⏱️ 🚀
+- Release-Name: **Right Here, Right Now** *(Fatboy Slim)* 🔥 ⏱️ 🚀
 
 ### Features and Enhancements
 
@@ -67,7 +81,7 @@
 
 ## 6.0.41 (2026-01-23)
 
-- Release-Name: *A Sky Full of Stars* 🌠 🚀 ✨
+- Release-Name: **A Sky Full of Stars** *(Coldplay)* 🌠 🚀 ✨
 
 ### Features and Enhancements
 
@@ -87,7 +101,7 @@
 
 ## 6.0.40 (2025-12-23)
 
-- Release-Name: *Let It Be* 🎄 🕊️ ✨
+- Release-Name: **Let It Be** *(The Beatles)*  🎄 🕊️ ✨
 
 ### Features and Enhancements
 
