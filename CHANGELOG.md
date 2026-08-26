@@ -1,7 +1,17 @@
 # Changelog
 
 
-## Release 6.0.45 (2026-7-17)
+## 6.0.46 (2026-8-21)
+
+- Release-Name:  **Running Up That Hill** *(Kate Bush)* 🌙 🏃‍♀️ ⛰️
+
+### Features and Enhancements
+
+- Added database hash caching to improve performance
+- Added scripts, script-configs and script-crontabs to backup (csa archive)
+
+
+## 6.0.45 (2026-7-17)
 
 - Release-Name:  **Connected** *(Stereo MC's)* 🔗 ☁️ ⚡
 
@@ -11,7 +21,7 @@
 
 ### Bug Fixes
 
-- improved chunked response handling with fixed unicode support and better error handling
+- Improved chunked response handling with fixed unicode support and better error handling
 
 
 
