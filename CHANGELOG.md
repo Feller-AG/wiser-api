@@ -1,6 +1,23 @@
 # Changelog
 
 
+
+## 6.0.47 (2026-9-21)
+
+- Release-Name:  **Come Together** *(Beatles)* 🤝 🔗 🎶
+
+### Features and Enhancements
+
+- Extended `api/westgroups` to include the actual sensor value 🌡️ and sensor reference 🔗.
+- Improved the overall user experience of the local web interface with various general improvements and a cleaner 🧹, more polished 🧼 user interface.
+
+### Bug Fixes
+
+- Fixed `api/smartbutton/notify` in `groupctrl` program mode so that the LED now lights up yellow 🟡 instead of blue 🔵.
+- Fixed 🩹 an glitch with the local toggle button of the µGW where the button's status LED could become out of sync with the actual state of the corresponding output channel.
+
+
+
 ## 6.0.46 (2026-8-21)
 
 - Release-Name:  **Running Up That Hill** *(Kate Bush)* 🌙 🏃‍♀️ ⛰️
