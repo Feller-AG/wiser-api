@@ -2,6 +2,60 @@
 
 
 
+## 6.0.49 (2026-11-03)
+
+- Release-Name:  **Time After Time** *(Cyndi Lauper)* 🛰️ ⏰ 🎶
+
+### Features and Enhancements
+
+- Added the new service `PUT /api/loads/<id>/protection` to move a motor load (e.g. blinds) to a safe position and lock it for a given time 🔒🪟
+  Example: `{"action": "up and lock", "duration": 30}` moves the blind up and locks it for 30 minutes.
+  Possible actions are `off` (release the lock), `up`, `down`, `stay and lock`, `up and lock`, `down and lock` and `down and tilt and lock`.
+  The lock duration is given in minutes (0–255). The active protection is shown in the `protection` object of the load state.
+  > ⚠️ Only for loads of type `motor`. Minimum required device firmware version: **2.8.7-283**
+- Added the new optional property `protections` to `/api/jobs` 🛡️
+  A job can now contain a list of motor protections, each with a `load`, an `action` and a `duration` (same as above).
+  The protections are sent whenever the job is triggered, e.g. by a timer, a script or a scene SmartButton.
+  This allows e.g. a "Storm" job that moves all blinds up and locks them.
+- Added the new services `GET`, `PUT` and `PATCH /api/time/gpsconfig` to use the GPS time of a weather station as time source 🛰️⏰
+  With `{"enabled": true}` the µGateway sets its system time from the weather station, which is useful for installations without an Internet connection.
+  The GPS time is only used if NTP is disabled or NTP could not set the time since the last startup.
+  The response also shows the last received GPS time (`utc`) and position (`position`) and whether the system time was synchronized (`synced`).
+- Added the new read-only property `synced` to `/api/time/ntpconfig`, which is `true` as soon as NTP has set the system time since the last startup ✅
+- Added the new optional property `ntc_r25` to the inputs of `/api/devices/<id>/config` to set the resistance of an external NTC temperature sensor at 25 °C (1000–100000 Ω, default 33000 Ω) 🌡️
+  This allows the use of NTC sensors with different characteristics. The property is only present if the NTC input is enabled and supported by the device firmware.
+- Changed `PUT /api/time/now`: after setting the time manually, the µGateway reboots with the new reboot cause `API_RTC_CHANGE` 🔄
+  In contrast to before, NTP or GPS may now correct the manually set time immediately after this reboot.
+- Improved the detection of devices: faster startup, new or restarted devices are found much faster and several µGateways on the same installation work together better 🔍⚡
+- Improved the local web interface with a new **Time (NTP & GPS)** section on the **settings** page, timers for HVAC groups, a device bindings viewer and new filters on the **devices** page 🖥️✨
+- Reduced memory usage for more stability in large installations 💾
+
+### Bug Fixes
+
+- Fixed `/api/devices` to show the SmartButton id of local buttons in the device inputs 🔘
+- Fixed the web server to treat a request without `Content-Length` header as a request with an empty body 📨
+- Fixed the web server to correctly finish large (chunked) responses, so following requests are not blocked anymore 🧩
+- Fixed button groups on the local outputs of the µGateway, e.g. after the device configuration was changed to more outputs (number of DALI groups) 💡
+- Fixed a rare crash during device requests 🩹
+
+
+
+## 6.0.48 (2026-10-02)
+
+- Release-Name:  **Our House** *(Madness)* 🏠 🎹 🎶
+
+### Features and Enhancements
+
+- Improved the **loads** and **sensors** pages of the local web interface: sensors are now grouped (e.g. by room), groups can be renamed and loads/sensors can be moved between groups 🗂️
+- Improved the developer options of the **devices** page with a register picker showing the full register description 🔍
+- Added tooltips to the icon buttons of the local web interface 💬
+
+### Bug Fixes
+
+- Fixed `cat` on the **cli** page of the local web interface for files containing UTF-8 characters (e.g. emojis) 🔤
+
+
+
 ## 6.0.47 (2026-9-21)
 
 - Release-Name:  **Come Together** *(Beatles)* 🤝 🔗 🎶
